@@ -1,0 +1,41 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "http://Tevinisaac.github.io/Brandykicks-Kenya",
+  "cacheDirectories": [".next/cache"],
+  "scripts": {
+    "dev": "next dev -p 3005",
+    "build": "next build",
+    "start": "next start -p $PORT"
+  },
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.35",
+    "@fortawesome/free-brands-svg-icons": "^5.15.3",
+    "@fortawesome/free-regular-svg-icons": "^5.15.3",
+    "@fortawesome/free-solid-svg-icons": "^5.15.3",
+    "@fortawesome/react-fontawesome": "^0.1.14",
+    "@material-ui/core": "^4.11.4",
+    "@material-ui/lab": "^4.0.0-alpha.58",
+    "bad-words": "^3.0.4",
+    "bootstrap": "^4.6.0",
+    "formik": "^2.2.8",
+    "mobile-detect": "^1.4.5",
+    "next": "10.2.0",
+    "next-redux-wrapper": "^7.0.2",
+    "react": "17.0.2",
+    "react-bootstrap": "^1.6.0",
+    "react-device-detect": "^1.17.0",
+    "react-dom": "17.0.2",
+    "react-multi-carousel": "^2.6.2",
+    "react-numeric-input": "^2.2.3",
+    "react-redux": "^7.2.4",
+    "redux": "^4.1.0",
+    "redux-thunk": "^2.3.0",
+    "yup": "^0.32.9"
+  },
+  "devDependencies": {
+    "gh-pages": "^3.2.2",
+    "redux-logger": "^3.0.6"
+  }
+}

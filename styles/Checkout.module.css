@@ -1,0 +1,116 @@
+.checkout {
+    min-height: 50vh;
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+    padding: 2rem 0;
+}
+.checkout h1 {
+    font-weight: bold;
+    letter-spacing: .2rem;
+    font-size: 3rem;
+}
+.billing {
+    margin-top: 5rem;
+    display: flex;
+    justify-content: space-between;
+}
+.billingDetails,
+.orderDetails {
+    width: 45%;
+}
+.billingForm {
+    text-align: left;
+    padding: 1rem 0;
+    border-bottom: .1rem solid var(--light-grey);
+}
+.checkoutForm {
+    width: 100%;
+}
+.orderDetails {
+    padding: 2rem;
+    background-color: var(--off-white);
+}
+.yourOrder h2 {
+    font-weight: bold;
+    letter-spacing: .2rem;
+    font-size: 3rem;
+}
+.myOrderTitle {
+    border-bottom: .1rem solid var(--light-grey);
+    text-align: left;
+    padding: 1rem 0;
+    margin-bottom: 1rem;
+}
+.product,
+.shoe,
+.subtotal,
+.shipping,
+.total {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: .1rem solid var(--light-grey);
+    padding: 1rem 0;
+    color: var(--dark-grey);
+}
+.product p,
+.shipping p,
+.subtotal p {
+    font-weight: bold;
+    font-size: 1.5rem;
+}
+.total {
+    font-weight: bold;
+    font-size: 2rem;
+}
+.totalPayment {
+    color: var(--dark-red);
+}
+.shoe p {
+    font-weight: 500;
+    font-size: 1.3rem;
+}
+.shoe p span {
+    font-weight: bold;
+    font-size: 1.7rem;
+    margin-left: 1rem
+}
+.paymentDetails p {
+    margin: 0;
+    font-size: 1.4rem;
+    text-align: left;
+}
+.paymentDetails {
+    text-align: left;
+}
+.mpesa,
+.paypal {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+@media screen and (min-width: 10em) and (max-width: 63em) {
+    .checkout {
+        width: 95%;
+        padding: 7rem 0;
+    }
+    .billing {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 2rem;
+    }
+    .billingDetails,
+    .orderDetails {
+        width: 100%;
+    }
+    .orderDetails {
+        padding: 1rem;
+    }
+}
+
+@media screen and (min-width: 64em) and (max-width: 80em) {
+    .checkout {
+        width: 90%;
+    }
+}

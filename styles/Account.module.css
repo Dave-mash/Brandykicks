@@ -1,0 +1,10 @@
+.account {
+    min-height: 50vh;
+    padding-top: 2rem
+}
+
+@media screen and (min-width: 10em) and (max-width: 80em) {
+    .account {
+        padding-top: 7rem
+    }
+}

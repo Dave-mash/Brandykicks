@@ -1,0 +1,219 @@
+.newArrivalsContainer {
+    width: 80%;
+    margin: 0 auto;
+    margin-bottom: 5rem;
+}
+.newArrivalsHeading {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+}
+.newArrivalsHeading h1 {
+    flex: 15%;
+    margin: 0;
+    color: var(--dark-grey);
+}
+.newArivalsBorder {
+    flex: 80%;
+    height: 0.2rem;
+    background-color: var(--off-white);
+}
+.newArrivalImg,
+.newArrivalsItems {
+    border-radius: 0.5rem;
+}
+.newArrivalsWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+.newArrivalsItemsWrapper {
+    width: 25%;
+    box-shadow: 0 0 5pt 2pt white;
+    transition: box-shadow 1s;
+    padding: 2rem;
+    min-height: 40rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none !important;
+}
+.newArrivalsItemsWrapper:hover {
+    box-shadow: 0 0 5pt 2pt var(--light-grey);
+    /* border-width: .2rem; */
+}
+.newArrivalsItemsWrapper:hover :nth-child(1) :nth-child(3) {
+    visibility: visible;
+}
+.newArrivalsItems {
+    width: 24rem;
+    height: 100%;
+}
+.itemBrand {
+    border-bottom: 0.1rem solid var(--off-white);
+    padding: 1rem 0;
+    display: flex;
+}
+.itemBrandName {
+    margin: 0;
+    letter-spacing: 0.1rem;
+    color: var(--pitch-grey);
+    font-size: 1.1rem;
+}
+.itemDetails {
+    margin: 0.7rem 0;
+}
+.itemNameText {
+    color: var(--dark-grey);
+    font-weight: 500;
+    font-size: 1.4rem;
+    margin: 0;
+}
+.itemPrice {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 1rem 0;
+}
+.itemOldPrice {
+    font-size: 1.4rem;
+    margin: 0;
+    margin-right: 0.5rem;
+    text-decoration: line-through;
+    color: var(--pitch-grey);
+}
+.itemNewPrice {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--dark-grey);
+}
+.addItemToCart {
+    border-top: 0.1rem solid var(--off-white);
+    padding: 1rem 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    visibility: hidden;
+    transition: visibility 100ms;
+}
+.addToCartBtn {
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--dark-grey);
+}
+.addToCartBtn b {
+    margin-left: 1rem;
+}
+.cartIcon,
+.wishlistIcon {
+    font-size: 1.8rem;
+}
+.wishlistIcon:hover,
+.cartIcon:hover,
+.addToCartBtn b:hover,
+.addToCartBtn:hover {
+    color: var(--dark-red);
+}
+.wishlistIcon {
+    color: var(--pitch-grey);
+}
+.mb {
+    display: none;
+}
+
+@media screen and (min-width: 10em) and (max-width: 80em) {
+    .dsk {
+        display: none;
+    }
+    .mb {
+        display: flex;
+    }
+    .newArrivalsContainer {
+        width: 100%;
+    }
+    .newArrivalsHeading {
+        width: 95%;
+        margin: 0 auto;
+        margin-bottom: 1rem;
+    }
+    .newArrivalsHeading h1 {
+        flex: 45%;
+        font-size: 2rem;
+    }
+    .newArivalsBorder {
+        flex: 55%;
+    }
+    .newArrivalsWrapper {
+        width: 95%;
+        flex-wrap: wrap;
+    }
+    .newArrivalsItemsWrapper {
+        width: 49%;
+        margin-bottom: 2%;
+        padding: 0;
+        align-items: flex-start;
+        box-shadow: 0 0 5pt 2pt var(--light-grey);
+    }
+    .newArrivalsItems {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        border-radius: 0.5rem 0.5rem 0 0;
+    }
+    .addToCartBtn {
+        background-color: var(--dark-red);
+        padding: .5rem;
+        margin: 0 auto;
+        color: white;
+        border: .1rem solid #ad202e;
+        border-radius: .5rem;
+        width: 90%;
+        display: flex;
+        justify-content: center;
+        outline: none;
+    }
+    .newArrivalImg {
+        border-radius: 0.5rem 0.5rem 0 0;
+    }
+    .itemImage {
+        position: 'relative';
+        width: 100%;
+        height: 22.3rem;
+    }
+    .itemDescription {
+        flex: 35%;
+        min-height: 40%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding-bottom: 1rem;
+    }
+    .itemBrand {
+        padding: .5rem 1rem;
+    }
+    .itemDetails {
+        padding: 0 1rem;
+        min-height: 50%;
+    }
+    .itemPrice {
+        font-size: 1rem;
+        justify-content: space-between;
+    }
+    .itemOldPrice,
+    .itemNewPrice {
+        margin: 0;
+    }
+    .itemOldPrice {
+        font-size: 1rem;
+    }
+    .itemNewPrice {
+        font-size: 1.4rem;
+    }
+}

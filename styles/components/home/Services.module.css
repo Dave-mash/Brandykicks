@@ -1,0 +1,114 @@
+.services {
+    width: 80%;
+    margin: 4rem auto;
+    height: 12.5rem;
+}
+.servicesInfo {
+    border: .2rem solid var(--off-white);
+    border-radius: .5rem;
+    height: 100%;
+}
+.servicesList {
+    display: flex;
+    list-style: none;
+    height: 100%;
+    align-items: center;
+    justify-content: space-around;
+}
+.serviceBorder {
+    width: .2rem;
+    height: 4rem;
+    background-color: var(--off-white);
+}
+.servicesListItem {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    width: 18rem;
+}
+.textTitle,
+.textInfo {
+    font-family: 'Roboto';
+    color: var(--pitch-grey);
+    margin: .5rem 0;
+}
+.textTitle {
+    font-weight: bold;
+    letter-spacing: .05rem;
+}
+.servicesListItemTextInfo {
+    margin-left: 1.5rem;
+}
+.mb {
+  display: none;
+}
+.dsk {
+    display: flex;
+}
+
+@media screen and (min-width: 10em) and (max-width: 46em) {
+    .dsk {
+      display: none;
+    }
+    .mb {
+      display: flex;
+    }
+    .services {
+        width: 100%;
+        height: auto;
+        margin: 1rem auto;
+    }
+    .servicesInfo {
+        border: none;
+        height: auto;
+        width: 100%;
+        display: block;
+        justify-content: center;
+        align-items: center;
+    }
+    .servicesList {
+        flex-direction: column;
+        justify-content: space-between;
+        width: 100%;
+        padding: 1rem;
+        text-align: left;
+    }
+    .servicesListItem {
+        justify-content: space-between;
+        width: 100%;
+    }
+    .serviceImage {
+        width: 15vw;
+        padding-right: 1.5rem;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+    .servicesListItemTextInfo {
+        margin: 0;
+        width: 85vw;
+    }
+}
+
+@media screen and (min-width: 48em) and (max-width: 64em) {
+    .dsk {
+        display: flex;
+        list-style: none;
+        align-items: center;
+        justify-content: space-between;
+        padding: 2rem;
+    }
+    .mb {
+        display: none;
+    }
+    .services {
+        width: 95%;
+        margin: 4rem auto;
+    }
+    .servicesList {
+        margin: 0 auto;
+    }
+    .servicesListItem {
+        width: 15rem;
+    }
+}

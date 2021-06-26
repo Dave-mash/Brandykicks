@@ -1,0 +1,427 @@
+.products {
+    min-height: 50vh;
+    padding-top: 2rem;
+    width: 80%;
+    margin: 0 auto;
+    font-size: 1.4rem;
+    color: var(--dark-grey);
+}
+.productsContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-size: inherit;
+    margin: 4rem 0;
+}
+.productsBreadCrumb {
+    width: 100%;
+}
+.filtersBar {
+    border: .1rem solid var(--light-grey);
+    max-height: 6.5rem;
+    border-radius: .3rem;
+    padding: 2rem;
+    display: flex;
+    align-items: center;
+}
+.options {
+    width: 25%;
+}
+.catalogue {
+    width: 72%;
+}
+.sortBy {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.filters,
+.results {
+    display: flex;
+    flex: 50%;
+}
+.results {
+    justify-content: flex-start;
+    display: flex;
+    align-items: center;
+}
+.displayStyle {
+    margin-right: 5rem;
+    font-size: 2rem;
+    flex: 20%;
+    display: flex;
+    justify-content: space-between;
+    color: var(--pitch-grey)
+}
+.listIcon:hover,
+.thIcon:hover {
+    color: var(--dark-red);
+    cursor: pointer;
+}
+.results p {
+    flex: 80%;
+}
+.filters {
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
+}
+.sortByFilter {
+    margin-right: 5rem;
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+.sortPrice {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.sortPrice p,
+.sortBy p {
+    margin: 0 1rem 0 0;
+}
+.priceSortIcons {
+    text-align: center;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+}
+.faSortUpIcon,
+.faSortDownIcon {
+    color: var(--pitch-grey);
+    cursor: pointer;
+    font-size: 2rem;
+}
+.faSortDownIcon {
+    margin-top: -3rem;
+}
+.faSortUpIcon {
+    margin-bottom: 2rem;
+}
+.faSortUpIcon:hover,
+.faSortDownIcon:hover {
+    color: var(--dark-red);
+}
+.categories,
+.colors,
+.priceFilter {
+    padding: 2rem;
+    margin-bottom: 2rem;
+    border: .2rem solid var(--light-grey);
+    font-size: 1.4rem;
+    color: var(--dark-grey);
+}
+.categories h3,
+.colors h3,
+.priceFilter h3 {
+    padding-bottom: 2rem;
+    margin-bottom: 2rem;
+    width: 100%;
+    border-bottom: .1rem solid var(--light-grey);
+    font-weight: 500;
+}
+.categories span {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 1rem 0;
+}
+.colors p,
+.priceFilter p {
+    margin: 1rem 0;
+}
+.categories span p {
+    margin: 0
+}
+.priceRange {
+    display: flex;
+    align-items: center;
+    margin: 2rem 0;
+}
+.priceRange p {
+    margin: 0;
+    margin-right: 2rem;
+    color: var(--grey);
+}
+.priceRange h5 {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 500;
+}
+.productsCatalogue {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin: 3rem auto 10rem auto;
+}
+.productsWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    margin: 0 auto;
+}
+.productsItemsWrapper {
+    width: 100%;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none !important;
+    z-index: 2;
+}
+.productsSection {
+    position: relative;
+    width: 30%;
+    padding: 0;
+    min-height: 40rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+.productsSection:hover > .addItemToCartWrapper {
+    visibility: visible;
+    z-index: 3;
+}
+.productsItems {
+    width: 24rem;
+    height: 100%;
+}
+.itemBrand {
+    border-bottom: 0.1rem solid var(--off-white);
+    padding: .5rem 0;
+    display: flex;
+    justify-content: space-between;
+}
+.itemBrandName {
+    margin: 0;
+    letter-spacing: 0.1rem;
+    color: var(--pitch-grey);
+    font-size: 1.1rem;
+}
+.itemDetails {
+    margin: 0.7rem 0;
+}
+.itemNameText {
+    color: var(--dark-grey);
+    font-weight: 500;
+    font-size: 1.4rem;
+    margin: 0;
+}
+.itemPrice {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+    padding: 1rem 0;
+}
+.itemOldPrice {
+    font-size: 1.4rem;
+    margin: 0;
+    margin-right: 0.5rem;
+    text-decoration: line-through;
+    color: var(--pitch-grey);
+}
+.itemNewPrice {
+    margin: 0;
+    font-size: 1.4rem;
+    font-weight: 500;
+    color: var(--dark-grey);
+}
+.addItemToCartWrapper {
+    position: absolute;
+    top: -2rem;
+    right: 5%;
+    bottom: -2rem;
+    left: -5%;
+    z-index: 1;
+    width: 110%;
+    height: 120%;
+    box-shadow: 0 0 5pt 2pt white;
+    transition: box-shadow 500ms;
+    visibility: hidden;
+    margin-top: 1rem 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+.addItemToCartWrapper:hover {
+    box-shadow: 0 0 5pt 2pt var(--light-grey);
+}
+.addItemToCart {
+    padding: 2rem 0;
+    margin: 0 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transition: visibility 100ms;
+    border-top: 0.1rem solid var(--off-white);
+    background-color: white;
+}
+.addToCartBtn {
+    font-size: 1.3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--dark-grey);
+}
+.addToCartBtn b {
+    margin-left: 1rem;
+}
+.cartIcon,
+.wishlistIcon {
+    font-size: 1.8rem;
+}
+.wishlistIcon:hover,
+.cartIcon:hover,
+.addToCartBtn b:hover,
+.addToCartBtn:hover {
+    color: var(--dark-red);
+}
+.wishlistIcon {
+    color: var(--pitch-grey);
+}
+.mb {
+    display: none;
+}
+.paginator {
+    width: 100%;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    padding: 1.5rem;
+    border: .1rem solid var(--light-grey);
+}
+
+@media screen and (min-width: 10em) and (max-width: 32em) {
+    .products {
+        padding-top: 7rem;
+        width: 90%;
+    }
+    .productsContent{
+        flex-wrap: wrap;
+        flex-direction: column-reverse;
+        width: 100%;
+    }
+    .productsContent {
+        margin: 2rem 0 4rem 0;
+    }
+    .productsCatalogue {
+        margin: 3rem auto 3rem auto;
+    }
+    .catalogue,
+    .options {
+        width: 100%;
+    }
+    .options {
+        /* background-color: red; */
+    }
+    .displayStyle {
+        margin: 0;
+        min-width: 20%;
+        margin-bottom: 2rem;
+    }
+    .paginator {
+        margin-bottom: 5rem;
+    }
+    .paginator {
+        margin-bottom: 5rem;
+    }
+    .filtersBar {
+        max-height: 50rem;
+    }
+    .results {
+        margin-bottom: 1rem;
+    }
+    .sortBy,
+    .results {
+        flex-direction: column;
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+    .productsSection {
+        width: 95%;
+        padding: 0;
+    }
+}
+
+@media screen and (min-width: 32em) and (max-width: 50em) {
+    .products {
+        padding-top: 7rem;
+    }
+    .productsContent{
+        flex-wrap: wrap;
+        flex-direction: column-reverse;
+        width: 100%;
+    }
+    .productsContent {
+        margin: 2rem 0 4rem 0;
+    }
+    .productsCatalogue {
+        margin: 3rem 0 3rem 0;
+    }
+    .catalogue,
+    .options {
+        width: 100%;
+    }
+    .displayStyle {
+        margin: 0;
+        min-width: 15%;
+        margin-bottom: 1rem;   
+    }
+    .paginator {
+        margin-bottom: 5rem;
+    }
+    .filtersBar {
+        max-height: 50rem;
+    }
+    .results {
+        margin-bottom: 1rem;
+    }
+    .sortBy,
+    .results {
+        flex-direction: column;
+        width: 100%;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+    .productsSection {
+        width: 45%;
+        padding: 0;
+    }
+    .addItemToCartWrapper {
+        
+    }
+}
+
+@media screen and (min-width: 50em) and (max-width: 63em) {
+    .products {
+        padding-top: 7rem;
+    }
+    .productsContent{
+        flex-wrap: wrap;
+        flex-direction: column-reverse;
+        width: 100%;
+    }
+    .productsContent {
+        margin: 2rem 0 4rem 0;
+    }
+    .productsCatalogue {
+        margin: 0 auto 3rem auto;
+    }
+    .catalogue,
+    .options {
+        width: 100%;
+    }
+    .displayStyle {
+        margin-right: 2rem;
+    }
+    .paginator {
+        margin-bottom: 5rem;
+    }
+}

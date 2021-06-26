@@ -1,0 +1,395 @@
+.helpSection {
+    background-color: var(--dark-grey);
+    height: 4rem;
+}
+.helpSectionWrapper {
+    margin: 0 auto;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+.headphones {
+    color: var(--dark-red);
+    font-size: 2.5rem;
+    margin: 0 0.5rem;
+}
+.helpLine {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 35%;
+}
+.headerSocials {
+    color: white;
+    font-size: 1.8rem;
+    width: 25%;
+    display: flex;
+    justify-content: space-between;
+}
+.socialBrand {
+    cursor: pointer;
+}
+.paymentMethods {
+    width: 6.5%;
+    display: flex;
+    justify-content: space-between;
+}
+.paypalPayment,
+.mpesaPayment {
+    border-radius: 5%;
+    margin: 0 0.5rem;
+}
+.helpLineWrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+.helpLineWrapper p {
+    margin: auto;
+}
+.navbarContainer {
+    font-size: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    z-index: 3;
+    transition: all 0.7s ease-in;
+    width: 100%;
+    top: 0;
+}
+.navbar {
+    width: 100%;
+    background-color: white;
+    -webkit-box-shadow: 0 1px 5px -1px #ddd;
+    -moz-box-shadow: 0 1px 5px -1px #ddd;
+    box-shadow: 0 1px 5px -1px #ddd;
+    z-index: 1000;
+}
+.navbarWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+    padding: 0.5rem 0;
+}
+.logoSearchBar {
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.4rem;
+}
+.searchBar {
+    width: 70%;
+    height: 5rem;
+    margin-right: 10%;
+    position: relative;
+    display: flex;
+}
+.menuSubList {
+    list-style: none;
+}
+.menuList {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: white;
+    width: 37%;
+    border-radius: 0.3rem;
+    padding: 1rem 2rem;
+    list-style: none;
+    border: 0.2rem solid var(--off-white);
+    max-height: 30rem;
+    overflow-y: scroll;
+    transition: visibility 0s, opacity 150ms linear;
+    visibility: hidden;
+}
+.menuList li {
+    padding: 0.7rem 0;
+    color: var(--pitch-grey);
+    cursor: pointer;
+}
+.menuList li:hover {
+    color: var(--dark-red);
+}
+.searchOptions {
+    position: absolute;
+    top: 100%;
+    left: 37%;
+    background-color: white;
+    width: 40%;
+    border-radius: 0.3rem;
+    padding: 0;
+    list-style: none;
+    border: 0.2rem solid var(--off-white);
+    max-height: 30rem;
+    overflow-y: hidden;
+    transition: visibility 0s, opacity 150ms linear;
+    display: none;
+}
+.searchOptions li {
+    padding: 0.7rem 2rem;
+    color: var(--pitch-grey);
+    cursor: pointer;
+}
+.searchOptions li:hover {
+    background-color: var(--off-white);
+}
+.logo {
+    width: 20%;
+    cursor: pointer;
+}
+.menuSelect,
+.searchField,
+.searchBtn {
+    border: none;
+    height: 100%;
+}
+.menuWrapper {
+    width: 37%;
+    height: auto;
+    outline: none;
+    cursor: pointer;
+}
+.menuSelect {
+    color: var(--dark-grey);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 0.2rem solid var(--light-grey);
+    border-left: 0.2rem solid var(--light-grey);
+    border-bottom: 0.2rem solid var(--light-grey);
+    background-color: var(--off-white);
+    border-radius: 0.5rem 0 0 0.5rem;
+}
+.menuSelect p {
+    margin: auto 0;
+}
+.menuSelect:hover {
+    background-color: var(--dark-red);
+    border-top: 0.2rem solid var(--dark-red);
+    border-left: 0.2rem solid var(--dark-red);
+    border-bottom: 0.2rem solid var(--dark-red);
+    color: white;
+}
+.menuWrapper:hover :nth-child(2) {
+    visibility: visible;
+    opacity: 1;
+}
+.searchField {
+    width: 40%;
+    border-top: 0.2rem solid var(--light-grey);
+    border-bottom: 0.2rem solid var(--light-grey);
+    padding-left: 2rem;
+    outline: none;
+    color: var(--dark-grey);
+}
+.searchBtn {
+    width: 23%;
+    color: white;
+    background-color: var(--dark-red);
+    border-top: 0.2rem solid var(--dark-red);
+    border-right: 0.2rem solid var(--dark-red);
+    border-bottom: 0.2rem solid var(--dark-red);
+    border-radius: 0 0.5rem 0.5rem 0;
+    opacity: 0.9;
+    cursor: pointer;
+}
+.searchBtn:hover {
+    opacity: 1;
+}
+.authSaveCart {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 20%;
+}
+.registerLogin {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+.userIcon,
+.wishlist,
+.cartIcon {
+    font-size: 3rem;
+}
+.wishlist {
+    cursor: pointer;
+}
+.userIcon,
+.cartIcon {
+    margin-right: 0.7rem;
+}
+.cartBtn {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+.cartBtn:hover :nth-child(2) :nth-child(1) {
+    color: var(--dark-red);
+}
+.myCart {
+    color: var(--grey);
+}
+.ksh {
+    color: var(--dark-red);
+}
+.cartIconWrapper {
+    position: relative;
+}
+.cartText {
+    margin-left: 0.5rem;
+}
+.cartTotal {
+    background-color: var(--dark-red);
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    right: 0;
+    top: 10%;
+    color: white;
+}
+.headerSlider {
+    width: 80%;
+    /* height: 60vh; */
+    margin: 1rem auto 2rem auto;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px 0 rgba(150, 127, 116, 0.2);
+}
+.carousel {
+    height: 100% !important;
+}
+.carouselImg {
+    border-radius: 0.5rem;
+}
+.headerSlider div ol li {
+    width: 10px !important;
+    height: 10px !important;
+    border-radius: 50% !important;
+}
+.mb {
+    display: none;
+}
+
+@media screen and (min-width: 10em) and (max-width: 50em) {
+    .dsk {
+        display: none;
+    }
+    .mb {
+        display: flex;
+    }
+    .navbarWrapper {
+        width: 95%;
+    }
+    .logoSearchBar {
+        font-size: 1.2rem;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .searchBar {
+        flex: 55%;
+        margin: 0;
+        margin-left: 5%;
+    }
+    .logo {
+        flex: 40%;
+    }
+    .searchField {
+        width: 100%;
+        height: 70%;
+        margin: auto 0;
+        padding-left: 2.5rem;
+        border: 0.2rem solid var(--light-grey);
+        background-color: var(--light-grey);
+        border-radius: 5rem;
+        outline: none;
+        color: var(--dark-grey);
+        position: relative;
+    }
+    .searchIcon {
+        position: absolute;
+        top: 35%;
+        left: 1rem;
+        width: 50%;
+        height: 30%;
+        color: var(--dark-grey);
+    }
+    .mbHeader {
+        background-color: red;
+        width: 100%;
+        min-height: 20rem;
+        margin-top: 6rem;
+    }
+    .navbarContainer {
+        position: -webkit-sticky; /* Safari */
+        position: sticky;
+        top: 0;
+        width: 100%;
+        height: 6rem;
+        background-color: white;
+    }
+}
+
+@media screen and (min-width: 50em) and (max-width: 80em) {
+    .dsk {
+        display: none;
+    }
+    .mb {
+        display: flex;
+    }
+    .mbHeader {
+        background-color: blue;
+        width: 100%;
+        min-height: 30rem;
+    }
+    .navbarWrapper {
+        width: 95%;
+    }
+    .logoSearchBar {
+        font-size: 1.2rem;
+        width: 100%;
+        justify-content: space-between;
+    }
+    .searchBar {
+        flex: 55%;
+        margin: 0;
+        margin-left: 5%;
+    }
+    .logo {
+        flex: 40%;
+    }
+    .searchField {
+        width: 100%;
+        height: 70%;
+        margin: auto 0;
+        padding-left: 2.5rem;
+        border: 0.2rem solid var(--light-grey);
+        background-color: var(--light-grey);
+        border-radius: 5rem;
+        outline: none;
+        color: var(--dark-grey);
+        position: relative;
+    }
+    .searchIcon {
+        position: absolute;
+        top: 35%;
+        left: 1rem;
+        width: 50%;
+        height: 30%;
+        color: var(--dark-grey);
+    }
+    .navbarContainer {
+        position: fixed;
+        width: 100%;
+    }
+}

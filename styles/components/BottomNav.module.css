@@ -1,0 +1,89 @@
+.mb {
+    display: none;
+}
+
+@media screen and (min-width: 10em) and (max-width: 64em) {
+    .mb {
+        display: block;
+    }
+    .navContainer {
+        background-color: white;
+        width: 100%;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        padding: .9rem 0;
+        -webkit-box-shadow: 0 1px 5px -1px #ddd;
+        -moz-box-shadow: 0 1px 5px -1px #ddd;
+        box-shadow: 0 1px 5px .5px var(--pitch-grey);
+        z-index: 3;
+    }
+    .BottomNav {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+    }
+    .home,
+    .wishlist,
+    .categories,
+    .cart,
+    .account {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+    }
+    .homeIcon,
+    .wishlistIcon,
+    .categoriesIcon,
+    .shoppingBagIcon,
+    .accountIcon {
+        font-size: 2rem;
+        color: var(--grey);
+    }
+    .home p,
+    .wishlist p,
+    .categories p,
+    .cart p,
+    .account p {
+        font-size: 1.3rem;
+        font-weight: 500;
+        margin: 0;
+        color: var(--grey);
+    }
+    .cartIcon {
+        position: relative;
+    }
+    .cartTotal {
+        font-size: 1.4rem;
+        background-color: var(--green);
+        width: 2rem;
+        height: 2rem;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        left: 60%;
+        top: 0%;
+        color: white;
+    }
+    .active {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        color: var(--dark-red) !important;
+    }
+    .active p {
+        font-size: 1.4rem;
+        margin: 0;
+    }
+    .active .homeIcon,
+    .active .wishlistIcon,
+    .active .categoriesIcon,
+    .active .shoppingBagIcon,
+    .active .accountIcon {
+        color: var(--dark-red);
+    }
+}

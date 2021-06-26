@@ -1,0 +1,23 @@
+.form {
+    font-size: 2rem;
+}
+.socialMediaAuth h4 {
+    color: var(--grey)
+}
+.socialBrand {
+    font-size: 3rem;
+    margin-right: 2rem;
+    cursor: pointer;
+}
+.fb {
+    color: var(--blue);
+}
+.google {
+    color: var(--dark-red);
+}
+
+@media screen and (min-width: 10em) and (max-width: 50em) {
+    .socialBrand {
+        font-size: 2.5rem;
+    }
+}

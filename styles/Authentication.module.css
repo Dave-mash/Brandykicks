@@ -1,0 +1,38 @@
+.authenticationContainer {
+    width: 80%;
+    margin: 0 auto;
+    text-align: center;
+}
+.authenticationContainer h1 {
+    color: var(--grey);
+}
+.authentication {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+.login,
+.register {
+    width: 45%;
+    text-align: left;
+}
+.authTitle {
+    border-bottom: .1rem solid var(--light-grey);
+    padding: 1rem 0;
+    color: var(--grey);
+    width: 100%;
+}
+
+@media screen and (min-width: 10em) and (max-width: 50em) {
+    .authenticationContainer {
+        width: 90%;
+    }
+    .authentication {
+        flex-direction: column;
+    }
+    .login,
+    .register {
+        width: 100%;
+        margin: 2rem 0;
+    }
+}

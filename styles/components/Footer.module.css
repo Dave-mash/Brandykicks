@@ -1,0 +1,157 @@
+.footer {
+    background-color: var(--dark-grey);
+    width: 100%;
+    /* margin-top: 10rem; */
+}
+.footerInfo {
+    padding: 5rem 9rem;
+    margin: 0 auto;
+    display: flex;
+    height: 80%;
+    justify-content: space-between;
+}
+.contactNumber {
+    font-size: 2.4rem;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    padding: 1rem 0;
+}
+.contactNumber p {
+    margin: 0;
+    color: white;
+    margin-left: 0.5rem;
+}
+.brandykicksDetails {
+    flex: 35%;
+}
+.brandykicksInfo {
+    font-size: 1.4rem;
+    width: 55%;
+    text-align: justify;
+    color: white;
+    font-weight: 500;
+}
+.telephone {
+    color: var(--dark-red);
+}
+.contact {
+    flex: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.socials {
+    flex: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.socialsWrapper {
+    flex: 50%;
+}
+.getInTouchSection {
+    flex: 40%;
+}
+.openingTime {
+    flex: 40%;
+}
+.openingTimeText,
+.getInTouch {
+    font-size: 1.4rem;
+    color: white;
+    font-weight: bold;
+}
+.sectionDetails p {
+    color: var(--pitch-grey);
+    font-size: 1.4rem;
+    margin: 0;
+}
+.socialIcons {
+    display: flex;
+    color: white;
+}
+.footerSocialBrand {
+    font-size: 2.4rem;
+    margin-right: 1rem;
+}
+.footerNewsLetter {
+    color: white;
+    flex: 50%;
+    font-size: 1.4rem;
+}
+.copyright {
+    border-top: 0.1rem solid #494f56;
+}
+.copyrightContainer {
+    padding: 3rem 9rem;
+    margin: 0 auto;
+}
+.copyright p {
+    color: var(--pitch-grey);
+    font-size: 1.4rem;
+}
+.newsLetterInput {
+    border: 0.2rem solid var(--light-grey);
+    border-radius: 0.5rem 0 0 0.5rem;
+    padding: 1rem;
+    outline: none;
+}
+.newsLetterBtn {
+    border: 0.2rem solid var(--dark-red);
+    background-color: var(--dark-red);
+    opacity: 0.9;
+    color: white;
+    border-radius: 0 0.5rem 0.5rem 0;
+    padding: 1rem;
+}
+.newsLetterBtn:hover {
+    opacity: 1;
+}
+.mb {
+    display: none;
+}
+
+@media screen and (min-width: 10em) and (max-width: 64em) {
+    .mb {
+        display: block;
+    }
+    .dsk {
+        display: none;
+    }
+    .footer {
+        margin-bottom: 6rem;
+    }
+    .footerInfo {
+        flex-direction: column;
+        padding: 2rem;
+        margin: 0 auto;
+        display: flex;
+        height: auto;
+        justify-content: space-between;
+    }
+    .brandykicksDetails {
+        flex: 35%;
+    }
+    .brandykicksInfo {
+        width: 100%;
+        text-align: left;
+    }
+    .contact,
+    .openingTime,
+    .footerNewsLetter {
+        margin: 2rem 0;
+    }
+    .socials {
+        margin-bottom: 2rem;
+    }
+    .newsLetterBtn,
+    .newsLetterInput {
+        padding: .5rem;
+        font-size: 1.2rem;
+        padding: 1rem;
+    }
+    .copyrightContainer {
+        padding: 1rem 2rem;
+    }
+}
