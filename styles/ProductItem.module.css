@@ -84,6 +84,9 @@
     color: var(--dark-grey);
     text-align: center;
 }
+.react-numeric-input {
+    color: red !important;
+}
 .addToWishlist {
     display: flex;
     font-size: 1.4rem;

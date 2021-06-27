@@ -156,6 +156,7 @@
     .newArrivalsItemsWrapper {
         width: 49%;
         /* min-height: 50rem; */
+        padding: .5rem;
         align-items: flex-start;
         box-shadow: 0 0 5pt 2pt var(--light-grey);
         margin-bottom: 2% !important;
@@ -169,11 +170,11 @@
     }
     .addToCartBtn {
         background-color: var(--dark-red);
-        padding: .5rem;
+        padding: 0.5rem;
         margin: 0 auto;
         color: white;
-        border: .1rem solid #ad202e;
-        border-radius: .5rem;
+        border: 0.1rem solid #ad202e;
+        border-radius: 0.5rem;
         width: 90%;
         display: flex;
         justify-content: center;
@@ -183,7 +184,7 @@
         border-radius: 0.5rem 0.5rem 0 0;
     }
     .itemImage {
-        position: 'relative';
+        position: "relative";
         width: 100%;
         height: 22.3rem;
     }
@@ -196,7 +197,7 @@
         padding-bottom: 1rem;
     }
     .itemBrand {
-        padding: .5rem 1rem;
+        padding: 0.5rem 1rem;
     }
     .itemDetails {
         padding: 0 1rem;
