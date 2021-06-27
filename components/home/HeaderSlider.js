@@ -1,7 +1,7 @@
 import Carousel from 'react-bootstrap/Carousel';
 import Image from 'next/image';
 
-// import MobileSlider from './MobileSlider';
+import MobileSlider from './MobileSlider';
 import styles from '../../styles/components/home/HeaderSlider.module.css';
 
 
@@ -22,8 +22,8 @@ const HeaderSlider = (props) => {
                 </Carousel>
             </div>
             {/* mobile slider */}
-            <div className={`${styles.mbHeader} ${styles.mb}`}>
-                {/* <MobileSlider /> */}
+            <div className={`${styles.mobileSliderContainer} ${styles.mb}`}>
+                <MobileSlider />
             </div>
         </div>
     );

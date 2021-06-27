@@ -261,7 +261,6 @@
 }
 .headerSlider {
     width: 80%;
-    /* height: 60vh; */
     margin: 1rem auto 2rem auto;
     border-radius: 0.5rem;
     box-shadow: 0 4px 8px 0 rgba(150, 127, 116, 0.2);
@@ -324,10 +323,10 @@
         height: 30%;
         color: var(--dark-grey);
     }
-    .mbHeader {
-        background-color: red;
+    .mobileSliderContainer {
         width: 100%;
-        min-height: 20rem;
+        min-height: 21rem;
+        position: relative;
     }
     .navbarContainer {
         position: -webkit-sticky; /* Safari */
@@ -346,8 +345,8 @@
     .mb {
         display: flex;
     }
-    .mbHeader {
-        background-color: blue;
+    .mobileSliderContainer {
+        /* background-color: blue; */
         width: 100%;
         min-height: 30rem;
         margin-top: 7rem;
@@ -395,7 +394,7 @@
 }
 
 @media screen and (min-width: 40em) and (max-width: 80em) {
-    .mbHeader {
+    .mobileSliderContainer {
         min-height: 40rem;
     }
 }

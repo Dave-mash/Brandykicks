@@ -15,7 +15,6 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import Image from 'next/image';
 import Link from 'next/link';
-import MobileDetect from "mobile-detect";
 
 import styles from '../styles/components/home/HeaderSlider.module.css';
 
