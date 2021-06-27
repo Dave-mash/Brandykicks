@@ -155,10 +155,10 @@
     }
     .newArrivalsItemsWrapper {
         width: 49%;
-        margin-bottom: 2%;
-        padding: 0;
+        /* min-height: 50rem; */
         align-items: flex-start;
         box-shadow: 0 0 5pt 2pt var(--light-grey);
+        margin-bottom: 2% !important;
     }
     .newArrivalsItems {
         width: 100%;

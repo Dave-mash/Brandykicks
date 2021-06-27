@@ -2,7 +2,7 @@ import Carousel from 'react-bootstrap/Carousel';
 import Image from 'next/image';
 
 // import MobileSlider from './MobileSlider';
-import styles from '../../styles/components/home/Header.module.css';
+import styles from '../../styles/components/home/HeaderSlider.module.css';
 
 
 const HeaderSlider = (props) => {

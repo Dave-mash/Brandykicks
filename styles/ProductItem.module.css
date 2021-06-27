@@ -177,7 +177,6 @@
     }
     .product {
         width: 90%;
-        padding-top: 8rem;
     }
     .productItemDetails {
         flex-direction: column;

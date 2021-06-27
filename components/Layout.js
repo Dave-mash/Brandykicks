@@ -1,8 +1,9 @@
 import NavBar from './NavBar';
 import Footer from './Footer';
+import styles from '../styles/components/Layout.module.css'
 
 const Layout = ({ children }) => (
-    <div styles={{ width: '100%' }}>
+    <div className={styles.layout}>
         <NavBar />
         { children}
         <Footer />

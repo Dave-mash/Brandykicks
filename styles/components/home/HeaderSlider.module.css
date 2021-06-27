@@ -328,7 +328,6 @@
         background-color: red;
         width: 100%;
         min-height: 20rem;
-        margin-top: 6rem;
     }
     .navbarContainer {
         position: -webkit-sticky; /* Safari */
@@ -351,6 +350,7 @@
         background-color: blue;
         width: 100%;
         min-height: 30rem;
+        margin-top: 7rem;
     }
     .navbarWrapper {
         width: 95%;
@@ -391,5 +391,11 @@
     .navbarContainer {
         position: fixed;
         width: 100%;
+    }
+}
+
+@media screen and (min-width: 10em) and (max-width: 80em) {
+    .mbHeader {
+        min-height: 40rem;
     }
 }

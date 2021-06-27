@@ -17,7 +17,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import MobileDetect from "mobile-detect";
 
-import styles from '../styles/components/home/Header.module.css';
+import styles from '../styles/components/home/HeaderSlider.module.css';
 
 
 export default class NavBar extends Component {
@@ -53,12 +53,7 @@ export default class NavBar extends Component {
                 navbar.style.width = '100%';
                 navbar.style.top = '0';
                 navbar.style.left = '0';
-                if (md) {
-                    console.log('Remove padding here!! ', md)
-                    this.navbar.current.parentElement.nextSibling.style.marginTop = '110px';
-                } else {
-                    this.navbar.current.parentElement.nextSibling.style.margin = '0';
-                }
+                if (md) this.navbar.current.parentElement.nextSibling.style.marginTop = '110px';
             }
         } else {
             this.setState(() => ({ scrolled: false }));
