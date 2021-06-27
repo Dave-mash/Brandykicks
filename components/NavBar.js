@@ -15,6 +15,7 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import Image from 'next/image';
 import Link from 'next/link';
+import MobileDetect from "mobile-detect";
 
 import styles from '../styles/components/home/Header.module.css';
 
@@ -46,11 +47,18 @@ export default class NavBar extends Component {
             this.setState(() => ({ scrolled: true }));
 
             if (!!navbar && !!navbar.style) {
+                const md = window.screen.availWidth > 1280;
+
                 navbar.style.position = 'fixed';
                 navbar.style.width = '100%';
                 navbar.style.top = '0';
                 navbar.style.left = '0';
-                this.navbar.current.parentElement.nextSibling.style.marginTop = '110px';
+                if (md) {
+                    console.log('Remove padding here!! ', md)
+                    this.navbar.current.parentElement.nextSibling.style.marginTop = '110px';
+                } else {
+                    this.navbar.current.parentElement.nextSibling.style.margin = '0';
+                }
             }
         } else {
             this.setState(() => ({ scrolled: false }));
@@ -62,13 +70,13 @@ export default class NavBar extends Component {
             }
         };
     }
-    
+
     focusResults(e) {
         const target = e.target.previousSibling;
-        
+
         target.style.display = 'block';
     }
-    
+
     blurResults(e) {
         const target = e.target.previousSibling;
 
