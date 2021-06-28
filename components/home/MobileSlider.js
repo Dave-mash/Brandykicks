@@ -14,32 +14,15 @@ class MobileSlider extends Component {
     constructor() {
         super();
 
-        this.state = { isMoving: false };
-    }
-    static getInitialProps({ req }) {
-        let userAgent;
-        let deviceType;
-
-        if (req) {
-            userAgent = req.headers["user-agent"];
-        } else {
-            userAgent = navigator.userAgent;
-        }
-
-        const md = new MobileDetect(userAgent);
-
-        if (md.tablet()) {
-            deviceType = "tablet";
-        } else if (md.mobile()) {
-            deviceType = "mobile";
-        } else {
-            deviceType = "desktop";
-        }
-
-        return { deviceType };
+        this.state = {
+            isMoving: false,
+            availWidth: 0
+        };
     }
 
-
+    componentDidMount() {
+        this.setState(() => ({ availWidth: window.screen.availWidth }))
+    }
 
     render() {
         const { classes } = this.props;
@@ -68,18 +51,17 @@ class MobileSlider extends Component {
         };
         
         const setImageSize = (side) => {
-            const availableWidth = window.screen.availWidth;
-            const mobile = availableWidth >= 320 && availableWidth < 800;
-            const tablet = availableWidth >= 800 && availableWidth < 1280;
+            const mobile = this.state.availWidth >= 320 && this.state.availWidth < 800;
+            const tablet = this.state.availWidth >= 800 && this.state.availWidth < 1280;
     
             switch (side) {
                 case 'width':
                     if (mobile) {
-                        // console.log('MOBILE DETECTED')
-                        return availableWidth * .49;
+                        console.log('MOBILE DETECTED')
+                        return this.state.availWidth * .49;
                     } else if (tablet) {
                         console.log('TABLET DETECTED')
-                        return availableWidth * .5;
+                        return this.state.availWidth * .9;
                     }
                 case 'height':
                     if (mobile) {
@@ -87,7 +69,7 @@ class MobileSlider extends Component {
                         return 190;
                     } else if (tablet) {
                         console.log('TABLET DETECTED')
-                        return 250;
+                        return 290;
                     }
             }
         }
@@ -123,8 +105,8 @@ class MobileSlider extends Component {
                         return (
                             <Image
                                 src={image}
-                                width={setImageSize('width')}
-                                height={setImageSize('height')}
+                                width={!!setImageSize('width') ? setImageSize('width') : 200}
+                                height={!!setImageSize('height') ? setImageSize('height') : 200}
                                 key={image}
                                 layout="intrinsic"
                                 className={styles.sliderImage}
