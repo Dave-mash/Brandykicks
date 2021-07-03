@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "http://Tevinisaac.github.io/Brandykicks-Kenya",
-  "cacheDirectories": [".next/cache"],
+  "cacheDirectories": [
+    ".next/cache"
+  ],
   "scripts": {
     "dev": "next dev -p 3005",
     "build": "next build",
@@ -17,6 +19,7 @@
     "@fortawesome/react-fontawesome": "^0.1.14",
     "@material-ui/core": "^4.11.4",
     "@material-ui/lab": "^4.0.0-alpha.58",
+    "axios": "^0.21.1",
     "bad-words": "^3.0.4",
     "bootstrap": "^4.6.0",
     "formik": "^2.2.8",
@@ -31,6 +34,7 @@
     "react-numeric-input": "^2.2.3",
     "react-redux": "^7.2.4",
     "redux": "^4.1.0",
+    "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.3.0",
     "yup": "^0.32.9"
   },

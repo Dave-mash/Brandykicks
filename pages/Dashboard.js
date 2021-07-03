@@ -1,14 +1,19 @@
+import { useEffect } from 'react';
+import { connect } from 'react-redux';
+import { fetchAllProducts } from '../redux/actions/products';
+
 import HeaderSlider from '../components/home/HeaderSlider';
 import Services from '../components/home/Services';
 import NewArrivals from '../components/home/NewArrivals';
 import styles from '../styles/Home.module.css';
 import BottomNav from '../components/BottomNav';
 
-import { connect } from 'react-redux';
 
-
-const Dashboard = ({ msg }) => {
-    console.log('msg ---> ', msg)
+const Dashboard = ({ products, fetchAllProducts }) => {
+    useEffect(() => {
+        fetchAllProducts()
+        console.log('Github users: ', products);
+    }, []);
     return (
         <main className={styles.main}>
             <HeaderSlider />
@@ -19,8 +24,16 @@ const Dashboard = ({ msg }) => {
     )
 }
 
-const mapStateToProps = (state) => ({
-    msg: state.example.msg,
+const mapStateToProps = ({ products }) => ({
+    products: products.productsList,
 })
 
-export default connect(mapStateToProps)(Dashboard);
+const mapDispatchToProps = (dispatch) => ({
+    fetchAllProducts: () => dispatch(fetchAllProducts()),
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);
+
+/*
+
+*/

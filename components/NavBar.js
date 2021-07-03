@@ -15,13 +15,21 @@ import {
 } from '@fortawesome/free-brands-svg-icons';
 import Image from 'next/image';
 import Link from 'next/link';
+import { connect } from 'react-redux';
 
+import FilteredProducts from './FilteredProducts';
+import {
+    setTextFilter,
+    focusResults,
+    blurResults
+} from '../redux/actions/filters';
+import filterProducts from '../selectors/products';
 import styles from '../styles/components/home/HeaderSlider.module.css';
 
 
-export default class NavBar extends Component {
-    constructor() {
-        super();
+class NavBar extends Component {
+    constructor(props) {
+        super(props);
         this.navbar = createRef();
         this.handleScroll = this.handleScroll.bind(this);
 
@@ -65,20 +73,7 @@ export default class NavBar extends Component {
         };
     }
 
-    focusResults(e) {
-        const target = e.target.previousSibling;
-
-        target.style.display = 'block';
-    }
-
-    blurResults(e) {
-        const target = e.target.previousSibling;
-
-        target.style.display = 'none';
-    }
-
     render() {
-
         return (
             <div className={styles.navbarContainer} >
                 <div className={`${styles.helpSection} ${styles.dsk}`}>
@@ -133,20 +128,14 @@ export default class NavBar extends Component {
                                         <li>Boat shoe</li>
                                     </ul>
                                 </div>
-                                <ul className={styles.searchOptions}>
-                                    <li>All Categories</li>
-                                    <li>Uncategorized</li>
-                                    <li>Boat shoe</li>
-                                    <li>Bucks</li>
-                                    <li>Uncategorized</li>
-                                    <li>Uncategorized</li>
-                                    <li>Boat shoe</li>
-                                </ul>
+                                {(!!this.props.filters.text && this.props.filters.searching) && <FilteredProducts />}
                                 <input
                                     placeholder="Search a product..."
                                     className={styles.searchField}
-                                    onFocus={(e) => this.focusResults(e)}
-                                    onBlur={(e) => this.blurResults(e)}
+                                    value={this.props.filters.text}
+                                    onChange={e => this.props.setTextFilter(e.target.value)}
+                                    onFocus={() => this.props.focusResults()}
+                                    onBlur={() => this.props.blurResults()}
                                 />
                                 <button className={styles.searchBtn}>Search</button>
                             </div>
@@ -157,7 +146,15 @@ export default class NavBar extends Component {
                                 <Image src="/logo.png" width={50} height={45} alt="Brandykicks logo" layout="intrinsic" className={styles.logo} />
                             </Link>
                             <div className={styles.searchBar}>
-                                <input placeholder="Search a product..." className={styles.searchField} />
+                                {(!!this.props.filters.text && this.props.filters.searching) && <FilteredProducts />}
+                                <input
+                                    placeholder="Search a product..."
+                                    className={styles.searchField}
+                                    value={this.props.filters.text}
+                                    onChange={e => this.props.setTextFilter(e.target.value)}
+                                    onFocus={() => this.props.focusResults()}
+                                    onBlur={() => this.props.blurResults()}
+                                />
                                 <FontAwesomeIcon icon={faSearch} className={styles.searchIcon}></FontAwesomeIcon>
                             </div>
                         </div>
@@ -187,3 +184,17 @@ export default class NavBar extends Component {
         )
     }
 }
+
+
+const mapStateToProps = ({ filters, products }) => ({
+    filters,
+    products: filterProducts(products.productsList, filters)
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    focusResults: () => dispatch(focusResults()),
+    blurResults: () => dispatch(blurResults()),
+    setTextFilter: (text) => dispatch(setTextFilter(text))
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(NavBar);

@@ -126,9 +126,8 @@
     list-style: none;
     border: 0.2rem solid var(--off-white);
     max-height: 30rem;
-    overflow-y: hidden;
+    overflow-y: scroll;
     transition: visibility 0s, opacity 150ms linear;
-    display: none;
 }
 .searchOptions li {
     padding: 0.7rem 2rem;
@@ -137,6 +136,15 @@
 }
 .searchOptions li:hover {
     background-color: var(--off-white);
+}
+.searchItemWrapper {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+.searchDescription {
+    margin-left: 2rem;
+    font-size: 1.2rem;
 }
 .logo {
     width: 20%;
@@ -336,6 +344,10 @@
         height: 6rem;
         background-color: white;
     }
+    .searchOptions {
+        left: 0;
+        width: 100%;
+    }
 }
 
 @media screen and (min-width: 50em) and (max-width: 80em) {
@@ -389,6 +401,10 @@
     }
     .navbarContainer {
         position: fixed;
+        width: 100%;
+    }
+    .searchOptions {
+        left: 0;
         width: 100%;
     }
 }

@@ -75,7 +75,7 @@ class MobileSlider extends Component {
         }
 
         return (
-            <div className={classes.root}>
+            <div className={classes.root} style={{maxWidth:'100%'}}>
                 <Carousel
                     ssr
                     additionalTransfrom={0}
