@@ -1,0 +1,13 @@
+.reviewFormContainer {
+    margin-top: 5rem;
+}
+.reviewForm {
+    margin-top: 2rem;
+    width: 50%;
+}
+
+@media screen and (min-width: 10em) and (max-width: 48em) {
+    .reviewForm {
+        width: 100%;
+    }
+}

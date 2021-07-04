@@ -1,0 +1,56 @@
+.stars {
+    display: flex;
+}
+.reviewItem {
+    display: flex;
+    margin-bottom: 2rem;
+}
+.avatar {
+    max-height: 6rem;
+    min-width: 6rem;
+    margin-right: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--off-white);
+    background-color: var(--dark-red);
+}
+.reviews {
+    margin-bottom: 2rem;
+    background-color: red;
+}
+.review {
+    padding: 2rem;
+    border: .1rem solid var(--light-grey);
+    border-radius: .3rem;
+    position: relative;
+}
+.reviewInfo {
+    display: flex;
+}
+.reviewInfo b {
+    margin-right: .5rem;
+}
+.mark {
+    position: absolute;
+    top: 1.5rem;
+    left: -.5rem;
+    width: 1rem;
+    height: 1rem;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
+    -moz-transform: rotate(45deg);
+    -o-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    border-left: .1rem solid var(--light-grey);
+    border-bottom: .1rem solid var(--light-grey);
+    background-color: white;
+}
+
+@media screen and (min-width: 10em) and (max-width: 48em) {
+    .avatar {
+        max-height: 5rem;
+        min-width: 5rem;
+        margin-right: 2rem;
+    }
+}

@@ -64,3 +64,24 @@ export const CheckoutSchema = Yup.object().shape({
         .min(8, 'Too Short!')
         .required("Address is required")
 });
+
+export const ReviewSchema = Yup.object().shape({
+    firstName: Yup.string()
+        .test('cleanName', 'Profane words are not allowed!', value => !filter.isProfane(value))
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('First name is required'),
+    lastName: Yup.string()
+        .test('cleanName', 'Profane words are not allowed!', value => !filter.isProfane(value))
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Last name is required'),
+    phoneNumber: Yup.number()
+        .test('cleanName', 'Profane words are not allowed!', value => !filter.isProfane(value))
+        .min(8, 'Too Short!')
+        .required("Phone number is required"),
+    address: Yup.string()
+        .test('cleanName', 'Profane words are not allowed!', value => !filter.isProfane(value))
+        .min(8, 'Too Short!')
+        .required("Address is required")
+});
