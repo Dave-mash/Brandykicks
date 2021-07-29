@@ -51,12 +51,15 @@ const Wishlist = () => {
     const classes = useStyles();
 
     const handleDeleteWishlist = (e) => {
+        const target = e.target.parentElement.parentElement;
+
+        target.style.display = 'none';
         // const target = e.target.parentElement.parentElement;
-        rows.filter((row, i) => {
-            console.log(i && i !== 0)
-        })
+        // rows.filter((row, i) => {
+        //     console.log(i && i !== 0)
+        // })
         // console.log('targetIndex: ', targetIndex)
-        const rowIndexes = [0, ...rows];
+        // const rowIndexes = [0, ...rows];
 
         // target.style.display = 'none !important';
     }

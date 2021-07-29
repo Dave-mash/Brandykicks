@@ -4,47 +4,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import Link from '@material-ui/core/Link';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import { connect } from 'react-redux';
 
+import {
+    formatCurrency,
+    loadContent,
+    calculateOldPrice
+} from '../../utils';
 import styles from '../../styles/components/home/NewArrivals.module.css';
 
-const products = [{
-    url: '/air-jordan-1-dior',
-    img: '/sample4.jpg',
-    imgAlt: 'black shoe',
-    brand: 'JORDAN',
-    title: 'AIR JORDAN 1 DIOR',
-    oldPrice: 'KSH 5,000.00',
-    newPrice: 'KSH 4,500.00'
-},
-{
-    url: '/adidas-samoa',
-    img: '/sample5.jpg',
-    imgAlt: 'Adidas Samoa',
-    brand: 'ADIDAS',
-    title: 'ADIDAS SAMOA',
-    oldPrice: null,
-    newPrice: 'KSH 5,000.00'
-},
-{
-    url: '/adidas-lifestyle',
-    img: '/sample2.jpg',
-    imgAlt: 'Adidas Lifestyle',
-    brand: 'ADIDAS',
-    title: 'ADIDAS LIFESTYLE',
-    oldPrice: 'KSH 4,000.00',
-    newPrice: 'KSH 3,200.00'
-},
-{
-    url: '/puma-black-rider',
-    img: '/sample3.jpg',
-    imgAlt: 'Puma Black Rider',
-    brand: 'PUMA',
-    title: 'PUMA BLACK RIDER',
-    oldPrice: 'KSH 4,500.00',
-    newPrice: 'KSH 3,500.00'
-}];
 
-const NewArrivals = () => (
+const NewArrivals = ({ products }) => (
     <div className={styles.newArrivalsContainer}>
         <div className={styles.newArrivals}>
             <div className={styles.newArrivalsHeading}>
@@ -52,65 +23,74 @@ const NewArrivals = () => (
                 <div className={styles.newArivalsBorder}></div>
             </div>
             <div className={styles.newArrivalsItemsContainer}>
-                <div className={styles.newArrivalsWrapper}>
-                    {
-                        products.map(product => (
-                            <Link
-                                href={product.url}
-                                className={styles.newArrivalsItemsWrapper}
-                                key={product.url}
-                            >
-                                <div className={styles.newArrivalsItems}>
-                                    <div className={`${styles.itemImage} ${styles.dsk}`}>
-                                        <Image src={product.img} alt={product.imgAlt} width={240} height={264} layout="intrinsic" className={styles.newArrivalImg} />
-                                    </div>
-                                    <div
-                                        className={styles.mb}
-                                        style={{
-                                            position: 'relative',
-                                            width: '100%',
-                                            height: '22.3rem',
-                                            flex: '65%'
-                                        }}>
-                                        <Image
-                                            src={product.img}
-                                            alt={product.imgAlt}
-                                            className={styles.newArrivalImg}
-                                            layout="fill"
-                                            objectFit="cover"
-                                        />
-                                    </div>
-                                    <div className={styles.itemDescription}>
-                                        <div className={styles.itemBrand}>
-                                            <p className={styles.itemBrandName}>{product.brand}</p>
+                {
+                    loadContent(products, <div className={styles.newArrivalsWrapper}>
+                        {
+                            products.map(product => (
+                                <Link
+                                    href={`/${product.slug}`}
+                                    className={styles.newArrivalsItemsWrapper}
+                                    key={product.slug}
+                                >
+                                    <div className={styles.newArrivalsItems}>
+                                        <div className={`${styles.itemImage} ${styles.dsk}`}>
+                                            <Image src={product?.acf.img} alt={product?.acf.imgAlt} width={240} height={264} layout="intrinsic" className={styles.newArrivalImg} />
                                         </div>
-                                        <div className={styles.itemDetails}>
-                                            <div className={styles.itemName}>
-                                                <p className={styles.itemNameText}>{product.title}</p>
+                                        <div
+                                            className={styles.mb}
+                                            style={{
+                                                position: 'relative',
+                                                width: '100%',
+                                                height: '22.3rem',
+                                                flex: '65%'
+                                            }}>
+                                            <Image
+                                                src={product?.acf.img}
+                                                alt={product?.acf.imgAlt}
+                                                className={styles.newArrivalImg}
+                                                layout="fill"
+                                                objectFit="cover"
+                                            />
+                                        </div>
+                                        <div className={styles.itemDescription}>
+                                            <div className={styles.itemBrand}>
+                                                <p className={styles.itemBrandName}>{product?.acf.brand}</p>
                                             </div>
-                                            <div className={styles.itemPrice}>
-                                                <p className={styles.itemNewPrice}>{product.newPrice}</p>
-                                                <p className={styles.itemOldPrice}>{product.oldPrice}</p>
+                                            <div className={styles.itemDetails}>
+                                                <div className={styles.itemName}>
+                                                    <p className={styles.itemNameText}>{product.title.rendered}</p>
+                                                </div>
+                                                <div className={styles.itemPrice}>
+                                                    <p className={styles.itemNewPrice}>{formatCurrency(product?.acf.price)}</p>
+                                                    {!!parseInt(product?.acf.discount) && <p className={styles.itemOldPrice}>{
+                                                        calculateOldPrice(product?.acf.discount, product?.acf.price)
+                                                    }</p>}
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className={`${styles.addItemToCart} ${styles.dsk}`}>
-                                            <div className={styles.addToCartBtn}>
-                                                <FontAwesomeIcon icon={faShoppingCart} className={styles.cartIcon}></FontAwesomeIcon>
-                                                <b>ADD TO CART</b>
+                                            <div className={`${styles.addItemToCart} ${styles.dsk}`}>
+                                                <div className={styles.addToCartBtn}>
+                                                    <FontAwesomeIcon icon={faShoppingCart} className={styles.cartIcon}></FontAwesomeIcon>
+                                                    <b>ADD TO CART</b>
+                                                </div>
+                                                <FontAwesomeIcon icon={faHeart} className={styles.wishlistIcon}></FontAwesomeIcon>
                                             </div>
-                                            <FontAwesomeIcon icon={faHeart} className={styles.wishlistIcon}></FontAwesomeIcon>
-                                        </div>
-                                        <div className={`${styles.mBaddItemToCart} ${styles.mb}`}>
-                                            <button className={styles.addToCartBtn}>Add to cart</button>
+                                            <div className={`${styles.mBaddItemToCart} ${styles.mb}`}>
+                                                <button className={styles.addToCartBtn}>Add to cart</button>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </Link>
-                        ))
-                    }
-                </div>
+                                </Link>
+                            ))
+                        }
+                    </div>, <div className={styles.loadingBanner}><CircularProgress /></div>)
+                }
             </div>
         </div>
     </div>
-)
-export default NewArrivals;
+);
+
+const mapStateToProps = ({ products }) => ({
+    products: products.productsList,
+})
+
+export default connect(mapStateToProps)(NewArrivals);

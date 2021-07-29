@@ -3,21 +3,23 @@ import axios from 'axios';
 import {
     FETCH_ALL_PRODUCTS
 } from './types';
+import { wp_url } from '../../config';
 
 // fetch all products
-export const fetchAllProducts = (payload) => (dispatch) => {
-    
-    axios.get(`https://api.github.com/users`)
-        .then(response => {
-            const users = response.data;
+export const fetchAllProducts = () => async (dispatch) => {
+    const url = `https://${wp_url}/wp-json/wp/v2/products`;
 
-            dispatch({
-                type: FETCH_ALL_PRODUCTS,
-                payload: users
-            })
+    try {
+        const products = await axios.get(url).then(res => res.data);
+
+        dispatch({
+            type: FETCH_ALL_PRODUCTS,
+            payload: products
         })
-        .catch(error => console.log(error))
-}
 
-// fetch single product
-export const fetchProduct = () => {}
+        return products;
+    } catch (e) {
+        console.log('ERROR: ', e);
+        return e
+    }
+}

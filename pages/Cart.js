@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Typography from '@material-ui/core/Typography';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import Link from '@material-ui/core/Link';
@@ -13,18 +14,19 @@ import { createMuiTheme } from '@material-ui/core/styles';
 import Image from 'next/image';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from '@fortawesome/free-regular-svg-icons';
+import { connect } from 'react-redux';
 import {
     faTrashAlt,
     faPlusCircle,
     faMinusCircle
 } from "@fortawesome/free-solid-svg-icons";
 
+import { fetchCart } from '../redux/actions/cart';
+import { formatCurrency } from '../utils';
 import Layout from '../components/Layout';
 import BottomNav from '../components/BottomNav';
 import styles from '../styles/Cart.module.css';
 
-
-const TAX_RATE = 0.07;
 
 const useStyles = makeStyles({
     table: {
@@ -44,44 +46,35 @@ const theme2 = createMuiTheme({
     }
 });
 
-function ccyFormat(num) {
-    return `${num.toFixed(2)}`;
-}
-
-function priceRow(qty, unit) {
-    return qty * unit;
-}
-
-function createRow(img, imgAlt, desc, qty, unit) {
-    const price = priceRow(qty, unit);
-    return { img, imgAlt, desc, qty, unit, price };
-}
-
-function subtotal(items) {
-    return items.map(({ price }) => price).reduce((sum, i) => sum + i, 0);
-}
-
 const handleOnQtyChange = () => {
     return;
 }
 
-const rows = [
-    createRow("/sample1.jpg", 'black shoe', 'AIR JORDAN 1 DIOR', 2, 4500.00),
-    createRow("/sample2.jpg", 'black shoe', 'ADIDAS SAMOA', 1, 3500.00),
-    createRow("/sample3.jpg", 'black shoe', 'ADIDAS LIFESTYLE', 1, 3200.00),
-];
-
-const invoiceSubtotal = subtotal(rows);
-const invoiceTaxes = TAX_RATE * invoiceSubtotal;
-const invoiceTotal = invoiceTaxes + invoiceSubtotal;
-
-const Cart = () => {
+const Cart = ({ cartList, fetchCart }) => {
+    useEffect(() => fetchCart(), []);
     const classes = useStyles();
+    const TAX_RATE = 0;
+
+    const priceRow = (qty, unit) => qty * unit;
+
+    const subtotal = (items) => items.map(
+        ({ acf }) => parseInt(acf.price)).reduce((sum, i) => sum + i, 0);
+
+    const invoiceSubtotal = subtotal(cartList);
+    const taxes = TAX_RATE * invoiceSubtotal;
+    const total = taxes + invoiceSubtotal;
+
+
+    const handleDeleteCartItem = (e) => {
+        const target = e.target.parentElement.parentElement.parentElement;
+
+        target.style.display = 'none';
+    }
 
     return (
         <div className={styles.cartContainer}>
             <Layout>
-                <div className={`${styles.cartContentContainer}`}>
+                {!!cartList.length ? <div className={`${styles.cartContentContainer}`}>
                     <div className={`${styles.cartContent} ${styles.dsk}`}>
                         <ThemeProvider theme={theme}>
                             <Breadcrumbs aria-label="breadcrumb" style={styles.breadcrumbs}>
@@ -103,40 +96,55 @@ const Cart = () => {
                                             </TableRow>
                                         </TableHead>
                                         <TableBody>
-                                            {rows.map((row) => (
-                                                <TableRow key={row.desc} className={styles.tableRow}>
-                                                    <TableCell className={styles.desc}>
-                                                        <FontAwesomeIcon icon={faTrashAlt} className={styles.trashIcon}></FontAwesomeIcon>
-                                                        <Image
-                                                            src={row.img}
-                                                            alt={row.imgAlt}
-                                                            width={80}
-                                                            height={80}
-                                                            className={styles.cartItemImage}
-                                                        />
-                                                        <span style={{ marginLeft: '30px' }}>{row.desc}</span>
-                                                    </TableCell>
-                                                    <TableCell align="left">
-                                                        <input value={row.qty} onChange={handleOnQtyChange} className={styles.qtyInput} type="number" />
-                                                    </TableCell>
-                                                    <TableCell align="right" className={styles.rowUnit}>{`KSH ${row.unit}`}</TableCell>
-                                                    <TableCell align="right" className={styles.rowTotal}>{`KSH ${ccyFormat(row.price)}`}</TableCell>
-                                                </TableRow>
-                                            ))}
+                                            {
+                                                cartList.map(cartItem => {
+                                                    const {
+                                                        title,
+                                                        quantity,
+                                                        unit_price,
+                                                        img
+                                                    } = cartItem.acf;
 
+                                                    return (
+                                                        <TableRow key={cartItem.id} className={styles.tableRow}>
+                                                            <TableCell className={styles.desc}>
+                                                                <FontAwesomeIcon
+                                                                    icon={faTrashAlt}
+                                                                    className={styles.trashIcon}
+                                                                    onClick={(e) => handleDeleteCartItem(e)}
+                                                                ></FontAwesomeIcon>
+                                                                <Image
+                                                                    src={img}
+                                                                    alt={title}
+                                                                    width={80}
+                                                                    height={80}
+                                                                    className={styles.cartItemImage}
+                                                                />
+                                                                <span style={{ marginLeft: '30px' }}>{title}</span>
+                                                            </TableCell>
+                                                            <TableCell align="left">
+                                                                <input value={quantity} onChange={handleOnQtyChange} className={styles.qtyInput} type="number" />
+                                                            </TableCell>
+                                                            <TableCell align="right" className={styles.rowUnit}>{formatCurrency(unit_price)}</TableCell>
+                                                            <TableCell align="right" className={styles.rowTotal}>{formatCurrency(priceRow(quantity, unit_price))}</TableCell>
+                                                        </TableRow>
+                                                    );
+                                                })
+                                            }
                                             <TableRow>
                                                 <TableCell rowSpan={3} />
                                                 <TableCell colSpan={2} className={styles.subtotalText}>SUBTOTAL</TableCell>
-                                                <TableCell align="right" className={styles.subtotal}>{`KSH ${ccyFormat(invoiceSubtotal)}`}</TableCell>
+                                                {console.log('==> ',taxes)}
+                                                <TableCell align="right" className={styles.subtotal}>{formatCurrency(invoiceSubtotal)}</TableCell>
                                             </TableRow>
                                             <TableRow>
                                                 <TableCell className={styles.taxText}>TAX</TableCell>
-                                                <TableCell align="right">{`${(TAX_RATE * 100).toFixed(0)} %`}</TableCell>
-                                                <TableCell align="right" className={styles.tax}>{`KSH ${ccyFormat(invoiceTaxes)}`}</TableCell>
+                                                <TableCell align="right">{`${TAX_RATE.toFixed(0)} %`}</TableCell>
+                                                <TableCell align="right" className={styles.tax}>{formatCurrency(taxes)}</TableCell>
                                             </TableRow>
                                             <TableRow>
                                                 <TableCell colSpan={2} className={styles.totalText}>TOTAL</TableCell>
-                                                <TableCell align="right" className={styles.total}>{`KSH ${ccyFormat(invoiceTotal)}`}</TableCell>
+                                                <TableCell align="right" className={styles.total}>{formatCurrency(total)}</TableCell>
                                             </TableRow>
                                             <TableRow>
                                                 <TableCell rowSpan={2} />
@@ -171,36 +179,47 @@ const Cart = () => {
                     <div className={`${styles.mbCart} ${styles.mb}`}>
                         <h4>MY CART(3 ITEMS)</h4>
                         <div className={styles.cartItemsContainer}>
-                            {rows.map(row => (
-                                <div className={styles.cartItem} key={row.desc}>
-                                    <div className={styles.cartDetails}>
-                                        <div className={styles.itemImage}>
-                                            <Image
-                                                src={row.img}
-                                                alt={row.imgAlt}
-                                                width={80}
-                                                height={80}
-                                                className={styles.mbCartItemImage}
-                                            />
+                            {
+                                cartList.map(cartItem => {
+                                    const {
+                                        title,
+                                        quantity,
+                                        unit_price,
+                                        img
+                                    } = cartItem.acf;
+
+                                    return (
+                                        <div className={styles.cartItem} key={cartItem.id}>
+                                            <div className={styles.cartDetails}>
+                                                <div className={styles.itemImage}>
+                                                    <Image
+                                                        src={img}
+                                                        alt={title}
+                                                        width={80}
+                                                        height={80}
+                                                        className={styles.mbCartItemImage}
+                                                    />
+                                                </div>
+                                                <div className={styles.itemDetails}>
+                                                    <p>{title}</p>
+                                                    <p>{formatCurrency(unit_price)}</p>
+                                                </div>
+                                            </div>
+                                            <div className={styles.cartOptions}>
+                                                <div className={styles.itemOptionsIcons}>
+                                                    <FontAwesomeIcon icon={faHeart} className={styles.wishlistIcon}></FontAwesomeIcon>
+                                                    <FontAwesomeIcon icon={faTrashAlt} className={styles.trashIcon}></FontAwesomeIcon>
+                                                </div>
+                                                <div className={styles.itemQuantity}>
+                                                    <FontAwesomeIcon icon={faMinusCircle} className={styles.minusIcon}></FontAwesomeIcon>
+                                                    <input value={quantity} onChange={handleOnQtyChange} className={styles.mbQtyInput} type="number" />
+                                                    <FontAwesomeIcon icon={faPlusCircle} className={styles.addIcon}></FontAwesomeIcon>
+                                                </div>
+                                            </div>
                                         </div>
-                                        <div className={styles.itemDetails}>
-                                            <p>{row.desc}</p>
-                                            <p>{`KSH ${ccyFormat(row.price)}`}</p>
-                                        </div>
-                                    </div>
-                                    <div className={styles.cartOptions}>
-                                        <div className={styles.itemOptionsIcons}>
-                                            <FontAwesomeIcon icon={faHeart} className={styles.wishlistIcon}></FontAwesomeIcon>
-                                            <FontAwesomeIcon icon={faTrashAlt} className={styles.trashIcon}></FontAwesomeIcon>
-                                        </div>
-                                        <div className={styles.itemQuantity}>
-                                            <FontAwesomeIcon icon={faMinusCircle} className={styles.minusIcon}></FontAwesomeIcon>
-                                            <input value={row.qty} onChange={handleOnQtyChange} className={styles.mbQtyInput} type="number" />
-                                            <FontAwesomeIcon icon={faPlusCircle} className={styles.addIcon}></FontAwesomeIcon>
-                                        </div>
-                                    </div>
-                                </div>
-                            ))}
+                                    )
+                                })
+                            }
                         </div>
                         <div className={`${styles.cartItem} ${styles.cartTotal}`}>
                             <div className={styles.cartItemsSubtotal}>
@@ -228,11 +247,20 @@ const Cart = () => {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> : <h1>Nothing to show here</h1>}
             </Layout>
             <BottomNav />
         </div >
     )
 };
 
-export default Cart;
+
+const mapStateToProps = ({ cart }) => ({
+    cartList: cart.cartList
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    fetchCart: () => dispatch(fetchCart())
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Cart);

@@ -1,4 +1,4 @@
-import { useEffect, useState, createRef, Component } from "react"
+import { createRef, Component } from "react"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
     faChevronDown,
@@ -23,6 +23,7 @@ import {
     focusResults,
     blurResults
 } from '../redux/actions/filters';
+import { fetchCart } from '../redux/actions/cart';
 import filterProducts from '../selectors/products';
 import styles from '../styles/components/home/HeaderSlider.module.css';
 
@@ -111,21 +112,21 @@ class NavBar extends Component {
                                     <ul className={styles.menuList}>
                                         <li>All Categories</li>
                                         <li>Uncategorized</li>
-                                        <li>Boat shoe</li>
+                                        <Link href="/products/boat-shoe"><li>Boat shoe</li></Link>
                                         <ul className={styles.menuSubList}>
-                                            <li>Brogue shoe</li>
-                                            <li>Brothel creeper</li>
-                                            <li>Snow boot</li>
+                                            <Link href="/products/boat-shoe"><li>Brogue shoe</li></Link>
+                                            <Link href="/products/brothel-creeper"><li>Brothel creeper</li></Link>
+                                            <Link href="/products/snow-boot"><li>Snow boot</li></Link>
                                         </ul>
-                                        <li>Bucks</li>
+                                        <Link href="/products/bucks"><li>Bucks</li></Link>
                                         <li>Uncategorized</li>
                                         <ul className={styles.menuSubList}>
-                                            <li>Brogue shoe</li>
-                                            <li>Brothel creeper</li>
-                                            <li>Snow boot</li>
+                                            <Link href="/products/brogue-shoe"><li>Brogue shoe</li></Link>
+                                            <Link href="/products/brothel-creeper"><li>Brothel creeper</li></Link>
+                                            <Link href="/products/snow-boot"><li>Snow boot</li></Link>
                                         </ul>
                                         <li>Uncategorized</li>
-                                        <li>Boat shoe</li>
+                                        <Link href="/products/boat-shoe"><li>Boat shoe</li></Link>
                                     </ul>
                                 </div>
                                 {(!!this.props.filters.text && this.props.filters.searching) && <FilteredProducts />}
@@ -166,7 +167,10 @@ class NavBar extends Component {
                             </div>
                             <Link href="/Wishlist"><FontAwesomeIcon icon={faHeart} className={styles.wishlist}></FontAwesomeIcon></Link>
                             <Link href="/Cart">
-                                <div className={styles.cartBtn}>
+                                <div
+                                    className={styles.cartBtn}
+                                    onClick={() => this.props.fetchCart()}
+                                >
                                     <div className={styles.cartIconWrapper}>
                                         <FontAwesomeIcon icon={faShoppingBag} className={styles.cartIcon}></FontAwesomeIcon>
                                         <span className={styles.cartTotal}>3</span>
@@ -194,6 +198,7 @@ const mapStateToProps = ({ filters, products }) => ({
 const mapDispatchToProps = (dispatch) => ({
     focusResults: () => dispatch(focusResults()),
     blurResults: () => dispatch(blurResults()),
+    fetchCart: () => dispatch(fetchCart()),
     setTextFilter: (text) => dispatch(setTextFilter(text))
 })
 

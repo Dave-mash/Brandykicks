@@ -1,10 +1,10 @@
-import Head from 'next/head'
+import Head from 'next/head';
 
 import Dashboard from './Dashboard';
 import Layout from '../components/Layout';
 import styles from '../styles/Home.module.css';
 
-export default function Home() {
+function Home() {
   return (
     <div className={styles.container}>
       <Head>
@@ -16,7 +16,9 @@ export default function Home() {
       <Layout>
         <Dashboard />
       </Layout>
-      {/* <Footer /> */}
     </div>
   )
 }
+
+
+export default Home;

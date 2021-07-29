@@ -4,6 +4,12 @@ export const setTextFilter = (text = '') => ({
     text
 });
 
+// SORT_BY_DATE
+export const sortByPrice = (order) => ({
+    type: 'SORT_BY_PRICE',
+    order
+});
+
 // ON_CLICK_RESULT
 export const clickResult = () => ({ type: 'CLICK_RESULT' });
 

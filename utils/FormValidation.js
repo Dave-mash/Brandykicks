@@ -85,3 +85,10 @@ export const ReviewSchema = Yup.object().shape({
         .min(8, 'Too Short!')
         .required("Address is required")
 });
+
+export const SubscriptionSchema = Yup.object().shape({
+    email: Yup.string()
+        .test('cleanName', 'Profane words are not allowed!', value => !filter.isProfane(value))
+        .email("Invalid email address format")
+        .required("Email is required")
+})

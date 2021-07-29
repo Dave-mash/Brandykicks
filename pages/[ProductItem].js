@@ -1,4 +1,5 @@
-import React from 'react';
+import { useState } from 'react';
+import axios from 'axios';
 import { Fragment } from 'react';
 import Typography from '@material-ui/core/Typography';
 import NumericInput from 'react-numeric-input';
@@ -19,12 +20,15 @@ import Rating from '@material-ui/lab/Rating';
 import Box from '@material-ui/core/Box';
 import { green } from '@material-ui/core/colors';
 
+import { wp_url } from '../config';
+import { calculateOldPrice, formatCurrency } from '../utils';
 import Reviews from '../components/Reviews';
 import Layout from '../components/Layout';
 import BottomNav from '../components/BottomNav';
 import styles from '../styles/ProductItem.module.css';
 
 
+const url = `https://${wp_url}/wp-json/wp/v2/products`;
 const theme = createMuiTheme({
     typography: {
         fontSize: 20,
@@ -64,12 +68,15 @@ const images = [{
     alt: 'shoe'
 }]
 
-const ProductItem = () => {
-    const [value, setValue] = React.useState(2);
-    const [option, setOption] = React.useState("description");
+const ProductItem = ({ product }) => {
+    const [value, setValue] = useState(2);
+    const [option, setOption] = useState("description");
     const classes = useStyles();
+    console.log('single product: ', product);
 
     const displayInfo = () => {
+        console.log('-> ', product)
+
         switch (option) {
             case "description":
                 return (
@@ -102,7 +109,7 @@ const ProductItem = () => {
                             <Breadcrumbs aria-label="breadcrumb" style={styles.breadcrumbs}>
                                 <Link color="inherit" href="/">Home</Link>
                                 <Link color="inherit" href="/">Jordans</Link>
-                                <Typography color="textPrimary">AIR JORDAN 1 DIOR</Typography>
+                                <Typography color="textPrimary">{product.title}</Typography>
                             </Breadcrumbs>
                         </ThemeProvider>
                     </div>
@@ -138,7 +145,7 @@ const ProductItem = () => {
                             </div>
                             <div className={`${styles.mainImage} ${styles.dsk}`}>
                                 <Image
-                                    src="/sample5.jpg"
+                                    src={product.img}
                                     alt="shoe"
                                     width={350}
                                     height={350}
@@ -147,7 +154,7 @@ const ProductItem = () => {
                             </div>
                             <div className={`${styles.mainImage} ${styles.mb}`}>
                                 <Image
-                                    src="/sample5.jpg"
+                                    src={product.img}
                                     alt="shoe"
                                     layout="fill"
                                     objectFit="fill"
@@ -156,7 +163,7 @@ const ProductItem = () => {
                             </div>
                         </div>
                         <div className={styles.productDetails}>
-                            <h2 className={styles.productTitle}>AIR JORDAN 1 DIOR</h2>
+                            <h2 className={styles.productTitle}>{product.title}</h2>
                             <div className={styles.rating}>
                                 <div className={styles.stars}>
                                     <Box component="fieldset" borderColor="transparent">
@@ -172,8 +179,8 @@ const ProductItem = () => {
                                 <p className={styles.reviews}>(1 customer review)</p>
                             </div>
                             <div className={styles.productPrice}>
-                                <h1>KSH 4,500.00</h1>
-                                <h3>KSH 5,000.00</h3>
+                                <h1>{formatCurrency(product.price)}</h1>
+                                <h3>{calculateOldPrice(product.discount, product.price)}</h3>
                             </div>
                             <p className={styles.productDescription}>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco,Proin lectus ipsum, gravida et mattis vulputate, tristique ut lectus</p>
                             <div className={styles.productActions}>
@@ -231,6 +238,52 @@ const ProductItem = () => {
             <BottomNav />
         </div>
     );
+}
+
+export const getStaticProps = async (ctx) => {
+    try {
+        const res = await axios.get(url);
+        const products = res.data;
+        const match = products.filter(product => ctx.params.ProductItem === product.slug);
+        const matchId = match[0].id.toString();
+        const response = await axios.get(`${url}/${matchId}`);
+        const product = response.data;
+
+        console.log('product: ', product)
+
+        return {
+            props: {
+                product: {
+                    title: product.title.rendered,
+                    content: product.content.rendered,
+                    brand: product.acf.brand,
+                    discount: product.acf.discount,
+                    img: product.acf.img,
+                    price: product.acf.price,
+                }
+            }
+        }
+    } catch (e) {
+        console.log('ERROR: ', e);
+    }
+}
+
+export const getStaticPaths = async () => {
+    try {
+        const res = await axios.get(url);
+        const products = res.data;
+
+        const paths = products.map(product => ({
+            params: {
+                ProductItem: product.slug,
+                id: product.id.toString()
+            }
+        }));
+
+        return { paths, fallback: false };
+    } catch (e) {
+        console.log('Error: ', e);
+    }
 }
 
 export default ProductItem;

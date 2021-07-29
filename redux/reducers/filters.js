@@ -1,6 +1,7 @@
 const defaultState = {
     text: '',
-    searching: false
+    searching: false,
+    sortBy: ''
 };
 
 export default function filters(state = defaultState, action) {
@@ -9,6 +10,11 @@ export default function filters(state = defaultState, action) {
             return {
                 ...state,
                 text: action.text
+            }
+        case 'SORT_BY_PRICE':
+            return {
+                ...state,
+                sortBy: action.order,
             }
         case 'BLUR_RESULTS':
             return {

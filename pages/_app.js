@@ -1,22 +1,24 @@
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import { wrapper } from '../redux/store';
-import App from 'next/app';
+import { connect } from 'react-redux';
 import { Provider } from 'react-redux';
+import App from 'next/app';
 
 import '../styles/globals.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-multi-carousel/lib/styles.css';
+
 
 config.autoAddCss = false;
 
 class MyApp extends App {
 	// getInitialProps allows for initial data population
 	// getInitialProps will disable Automatic Static Optimization.
+
 	static getInitialProps = wrapper.getInitialAppProps(store => async ({ Component, ctx }) => {
 
-		// store.dispatch({ type: 'FOO', payload: 'foo' });
-		console.log('store =======> ',store.getState())
+		console.log('store =======> ', store.getState())
 
 		//Anything returned here can be accessed by the client
 		return {
@@ -30,7 +32,7 @@ class MyApp extends App {
 
 	render() {
 		//Information that was returned  from 'getInitialProps' are stored in the props i.e. pageProps
-		const { Component, pageProps, store } = this.props;
+		const { Component, pageProps } = this.props;
 
 		return <Component {...pageProps} />;
 	}

@@ -58,7 +58,8 @@ const Checkout = () => {
             lastName: '',
             country: '',
             phoneNumber: '',
-            streetAddress: ''
+            streetAddress: '',
+            payment: ""
         },
         validationSchema: CheckoutSchema,
         onSubmit: (values, { setSubmitting, resetForm }) => {
@@ -67,6 +68,7 @@ const Checkout = () => {
             setSubmitting(true);
         },
     });
+    console.log('formik: ',formik)
 
     const handleRadioChange = (event) => {
         setValue(event.target.value);
@@ -81,12 +83,12 @@ const Checkout = () => {
             <Layout>
                 <div className={styles.checkout}>
                     <h1>Checkout</h1>
-                    <div className={styles.billing}>
+                    <form onSubmit={formik.handleSubmit} className={styles.billing}>
                         <div className={styles.billingDetails}>
                             <div className={styles.billingForm}>
                                 <h2>BILLING DETAILS</h2>
                             </div><br />
-                            <form onSubmit={formik.handleSubmit} className={`${classes.root} ${styles.checkoutForm}`}>
+                            <div className={`${classes.root} ${styles.checkoutForm}`}>
                                 <div className={classes.formHorizontal}>
                                     <TextField
                                         className={classes.horizontalInputForm}
@@ -199,7 +201,7 @@ const Checkout = () => {
                                     error={formik.touched.email && Boolean(formik.errors.email)}
                                     helperText={formik.touched.email && formik.errors.email}
                                 /><br /><br />
-                            </form>
+                            </div>
                         </div>
                         <div className={styles.orderDetails}>
                             <div className={styles.myOrderContainer}>
@@ -275,7 +277,7 @@ const Checkout = () => {
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </Layout>
             <BottomNav />

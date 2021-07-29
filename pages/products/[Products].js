@@ -1,4 +1,5 @@
-import React from 'react';
+import { useState, createRef, Fragment } from 'react';
+import { connect } from 'react-redux';
 import Image from 'next/image';
 import { ThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
@@ -22,6 +23,8 @@ import Slider from '@material-ui/core/Slider';
 import Button from '@material-ui/core/Button';
 import { green } from '@material-ui/core/colors';
 
+import { sortByPrice } from '../../redux/actions/filters';
+import selectProducts from '../../selectors/products';
 import NavBar from '../../components/NavBar';
 import Footer from '../../components/Footer';
 import BottomNav from '../../components/BottomNav';
@@ -82,14 +85,42 @@ const products = [{
     newPrice: 'KSH 3,200.00'
 }]
 
-const Products = () => {
+const Products = ({ products, sortByPrice }) => {
     const classes = useStyles();
-    const [value, setValue] = React.useState(2);
-    const [range, setRange] = React.useState([20, 37]);
+    const [value, setValue] = useState(2);
+    const [range, setRange] = useState([20, 37]);
+    const sortPrice = createRef();
 
     const handleChange = (event, newValue) => {
         setRange(newValue);
     };
+
+    const handleSortByPrice = (order) => {
+        const faUp = sortPrice.current.firstChild;
+        const faDown = sortPrice.current.lastChild;
+
+        switch (order) {
+            case 'priceDescending':
+                faUp.style.color = '#bf1c2d';
+                faDown.style.color = '#999';
+                break;
+            case 'priceAscending':
+                faDown.style.color = '#bf1c2d';
+                faUp.style.color = '#999';
+                break;
+        }
+
+        sortByPrice(order);
+    }
+
+    const handleDisplayType = (style) => {
+        console.log('Changed display style to: ', style);
+    }
+
+    const handleSortItems = () => {
+        // const sortVal = e.target.value.toLowerCase();
+
+    }
 
     return (
         <div className={styles.productsContainer}>
@@ -107,24 +138,24 @@ const Products = () => {
                     <div className={styles.options}>
                         <div className={styles.categories}>
                             <h3>PRODUCT CATEGORIES</h3>
-                            <span>
+                            <span className={styles.category}>
                                 <p>Adidas</p>
                                 <FontAwesomeIcon icon={faChevronRight} className={styles.categgoryIcon}></FontAwesomeIcon>
                             </span>
-                            <span>
+                            <span className={styles.category}>
                                 <p>Jordans</p>
                                 <FontAwesomeIcon icon={faChevronRight} className={styles.categgoryIcon}></FontAwesomeIcon>
                             </span>
-                            <span>
+                            <span className={styles.category}>
                                 <p>Puma</p>
                                 <FontAwesomeIcon icon={faChevronRight} className={styles.categgoryIcon}></FontAwesomeIcon>
                             </span>
                         </div>
                         <div className={styles.colors}>
                             <h3>COLOR</h3>
-                            <p>Green (1)</p>
-                            <p>Blue (2)</p>
-                            <p>White (1)</p>
+                            <p className={styles.color}>Green (1)</p>
+                            <p className={styles.color}>Blue (2)</p>
+                            <p className={styles.color}>White (1)</p>
                         </div>
                         <div className={styles.priceFilter}>
                             <h3>FILTER BY PRICE</h3>
@@ -155,14 +186,25 @@ const Products = () => {
                             <div className={styles.sortBy}>
                                 <div className={styles.results}>
                                     <div className={styles.displayStyle}>
-                                        <FontAwesomeIcon icon={faList} className={styles.listIcon}></FontAwesomeIcon>
-                                        <FontAwesomeIcon icon={faTh} className={styles.thIcon}></FontAwesomeIcon>
+                                        <FontAwesomeIcon
+                                            icon={faList}
+                                            className={styles.listIcon}
+                                            onClick={() => handleDisplayType('list')}
+                                        ></FontAwesomeIcon>
+                                        <FontAwesomeIcon
+                                            icon={faTh}
+                                            className={styles.thIcon}
+                                            onClick={() => handleDisplayType('grid')}
+                                        ></FontAwesomeIcon>
                                     </div>
                                     <p>Showing 1–16 of 53 results</p>
                                 </div>
                                 <div className={styles.filters}>
                                     <div className={styles.sortByFilter}>
-                                        <Form.Control as="select" custom>
+                                        <Form.Control
+                                            as="select" custom
+                                        // onChange={(e) => handleSortItems(e)}
+                                        >
                                             <option>Sort by Latest</option>
                                             <option>Sort by Rating</option>
                                             <option>Sort by Popular</option>
@@ -170,9 +212,17 @@ const Products = () => {
                                     </div>
                                     <span className={styles.sortPrice}>
                                         <p>Price:</p>
-                                        <div className={styles.priceSortIcons}>
-                                            <FontAwesomeIcon icon={faSortUp} className={styles.faSortUpIcon}></FontAwesomeIcon>
-                                            <FontAwesomeIcon icon={faSortDown} className={styles.faSortDownIcon}></FontAwesomeIcon>
+                                        <div className={styles.priceSortIcons} ref={sortPrice}>
+                                            <FontAwesomeIcon
+                                                icon={faSortUp}
+                                                className={styles.faSortUpIcon}
+                                                onClick={() => handleSortByPrice('priceDescending')}
+                                            ></FontAwesomeIcon>
+                                            <FontAwesomeIcon
+                                                icon={faSortDown}
+                                                className={styles.faSortDownIcon}
+                                                onClick={() => handleSortByPrice('priceAscending')}
+                                            ></FontAwesomeIcon>
                                         </div>
                                     </span>
                                 </div>
@@ -181,71 +231,73 @@ const Products = () => {
                         <div className={styles.productsCatalogue}>
                             {
                                 products.map(product => (
-                                    <div className={styles.productsSection} key={product.url}>
-                                        <Link
-                                            href={product.url}
-                                            className={styles.productsItemsWrapper}
-                                        >
-                                            <div className={styles.productsItems}>
-                                                <div className={`${styles.itemImage} ${styles.dsk}`}>
-                                                    <Image src={product.img} alt={product.imgAlt} width={240} height={264} layout="intrinsic" className={styles.productImg} />
-                                                </div>
-                                                <div
-                                                    className={styles.mb}
-                                                    style={{
-                                                        position: 'relative',
-                                                        width: '100%',
-                                                        height: '22.3rem',
-                                                        flex: '65%'
-                                                    }}>
-                                                    <Image
-                                                        src={product.img}
-                                                        alt={product.imgAlt}
-                                                        className={styles.productImg}
-                                                        layout="fill"
-                                                        objectFit="cover"
-                                                    />
-                                                </div>
-                                                <div className={styles.itemDescription}>
-                                                    <div className={styles.itemBrand}>
-                                                        <p className={styles.itemBrandName}>{product.brand}</p>
-                                                        <div className={styles.stars}>
-                                                            <Box component="fieldset" borderColor="transparent">
-                                                                <Rating
-                                                                    name="simple-controlled"
-                                                                    value={value}
-                                                                    onChange={(event, newValue) => {
-                                                                        setValue(newValue);
-                                                                    }}
-                                                                />
-                                                            </Box>
+                                    <Link
+                                        href={product.url}
+                                        className={styles.productsItemsWrapper}
+                                    >
+                                        <div className={styles.productsSectionWrapper}>
+                                            <div className={styles.productsSection} key={product.url}>
+                                                <div className={styles.productsItems}>
+                                                    <div className={`${styles.itemImage} ${styles.dsk}`}>
+                                                        <Image src={product.imgUrl} alt={product.imgAlt} width={240} height={264} layout="intrinsic" className={styles.productImg} />
+                                                    </div>
+                                                    <div
+                                                        className={styles.mb}
+                                                        style={{
+                                                            position: 'relative',
+                                                            width: '100%',
+                                                            height: '22.3rem',
+                                                            flex: '65%'
+                                                        }}>
+                                                        <Image
+                                                            src={product.imgUrl}
+                                                            alt={product.imgAlt}
+                                                            className={styles.productImg}
+                                                            layout="fill"
+                                                            objectFit="cover"
+                                                        />
+                                                    </div>
+                                                    <div className={styles.itemDescription}>
+                                                        <div className={styles.itemBrand}>
+                                                            <p className={styles.itemBrandName}>{product.brand}</p>
+                                                            <div className={styles.stars}>
+                                                                <Box component="fieldset" borderColor="transparent">
+                                                                    <Rating
+                                                                        name="simple-controlled"
+                                                                        value={value}
+                                                                        onChange={(event, newValue) => {
+                                                                            setValue(newValue);
+                                                                        }}
+                                                                    />
+                                                                </Box>
+                                                            </div>
+                                                        </div>
+                                                        <div className={styles.itemDetails}>
+                                                            <div className={styles.itemName}>
+                                                                <p className={styles.itemNameText}>{product.title}</p>
+                                                            </div>
+                                                            <div className={styles.itemPrice}>
+                                                                <p className={styles.itemNewPrice}>{product.price}</p>
+                                                                <p className={styles.itemOldPrice}>{product.oldPrice}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className={`${styles.mBaddItemToCart} ${styles.mb}`}>
+                                                            <button className={styles.addToCartBtn}>Add to cart</button>
                                                         </div>
                                                     </div>
-                                                    <div className={styles.itemDetails}>
-                                                        <div className={styles.itemName}>
-                                                            <p className={styles.itemNameText}>{product.title}</p>
+                                                </div>
+                                                <div className={`${styles.addItemToCartWrapper} ${styles.dsk}`}>
+                                                    <div className={`${styles.addItemToCart} ${styles.dsk}`}>
+                                                        <div className={styles.addToCartBtn}>
+                                                            <FontAwesomeIcon icon={faShoppingCart} className={styles.categgoryIcon}></FontAwesomeIcon>
+                                                            <b>ADD TO CART</b>
                                                         </div>
-                                                        <div className={styles.itemPrice}>
-                                                            <p className={styles.itemNewPrice}>{product.newPrice}</p>
-                                                            <p className={styles.itemOldPrice}>{product.oldPrice}</p>
-                                                        </div>
-                                                    </div>
-                                                    <div className={`${styles.mBaddItemToCart} ${styles.mb}`}>
-                                                        <button className={styles.addToCartBtn}>Add to cart</button>
+                                                        <FontAwesomeIcon icon={faHeart} className={styles.wishlistIcon}></FontAwesomeIcon>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        </Link>
-                                        <div className={`${styles.addItemToCartWrapper} ${styles.dsk}`}>
-                                            <div className={`${styles.addItemToCart} ${styles.dsk}`}>
-                                                <div className={styles.addToCartBtn}>
-                                                    <FontAwesomeIcon icon={faShoppingCart} className={styles.categgoryIcon}></FontAwesomeIcon>
-                                                    <b>ADD TO CART</b>
-                                                </div>
-                                                <FontAwesomeIcon icon={faHeart} className={styles.wishlistIcon}></FontAwesomeIcon>
                                             </div>
                                         </div>
-                                    </div>
+                                    </Link>
                                 ))
                             }
                         </div>
@@ -261,4 +313,12 @@ const Products = () => {
     );
 }
 
-export default Products;
+const mapStateToProps = ({ products, filters }) => ({
+    products: selectProducts(products.productsList, filters)
+})
+
+const mapDispatchToProps = (dispatch) => ({
+    sortByPrice: (order) => dispatch(sortByPrice(order))
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Products);

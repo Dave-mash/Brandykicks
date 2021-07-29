@@ -2,11 +2,13 @@ import { combineReducers } from 'redux';
 import { HYDRATE } from 'next-redux-wrapper';
 
 import products from './products';
+import cart from './cart';
 import filters from './filters';
 
 
 const combinedReducer = combineReducers({
     products,
+    cart,
     filters
 })
 

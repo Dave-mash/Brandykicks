@@ -155,6 +155,7 @@
     justify-content: space-between;
     flex-wrap: wrap;
     margin: 3rem auto 10rem auto;
+    background-color: red;
 }
 .productsWrapper {
     width: 100%;
@@ -171,6 +172,10 @@
     cursor: pointer;
     text-decoration: none !important;
     z-index: 2;
+}
+.productsSectionWrapper {
+    width: 100%;
+    display: 'flex';
 }
 .productsSection {
     position: relative;
@@ -293,6 +298,10 @@
     justify-content: center;
     padding: 1.5rem;
     border: .1rem solid var(--light-grey);
+}
+.category,
+.color {
+    cursor: pointer;
 }
 
 @media screen and (min-width: 10em) and (max-width: 32em) {

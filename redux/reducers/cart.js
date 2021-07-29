@@ -1,13 +1,13 @@
 const initialState = {
-    productsList: []
+    cartList: []
 };
 
 export default function products(state = initialState, action) {
     switch (action.type) {
-        case 'FETCH_ALL_PRODUCTS':
+        case 'FETCH_CART':
             return {
                 ...state,
-                productsList: action.payload
+                cartList: action.payload
             }
         default:
             return state
