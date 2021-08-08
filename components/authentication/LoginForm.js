@@ -8,10 +8,11 @@ import {
     faFacebook,
     faGooglePlus,
 } from '@fortawesome/free-brands-svg-icons';
-// import { connect } from 'react-redux';
+import { useCookies } from "react-cookie";
+import { connect } from 'react-redux';
 
 import { LoginSchema } from '../../utils/FormValidation';
-// import ClientStorage from '../../utils/ClientStorage';
+import { signIn } from '../../redux/actions/auth';
 import styles from '../../styles/Login.module.css';
 
 
@@ -21,7 +22,8 @@ const theme = createMuiTheme({
     }
 });
 
-const LoginForm = () => {
+const LoginForm = ({ signIn }) => {
+    const [cookie, setCookie] = useCookies(["user"]);
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -30,9 +32,9 @@ const LoginForm = () => {
         },
         validationSchema: LoginSchema,
         onSubmit: (values, { setSubmitting, resetForm }) => {
-            console.log('JSON.stringify(values, null, 2)');
-            console.log(JSON.stringify(values, null, 2));
             setSubmitting(true);
+            signIn(values, setCookie);
+            setSubmitting(false);
         },
     });
 
@@ -104,4 +106,8 @@ const LoginForm = () => {
     )
 }
 
-export default LoginForm;
+const mapDispatchToProps = (dispatch) => ({
+    signIn: (values, setCookie) => dispatch(signIn(values, setCookie))
+})
+
+export default connect(null, mapDispatchToProps)(LoginForm);

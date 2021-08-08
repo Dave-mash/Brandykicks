@@ -19,9 +19,9 @@ export const RegisterSchema = Yup.object().shape({
         .min(2, 'Too Short!')
         .max(50, 'Too Long!')
         .required('Last name is required'),
-    phoneNumber: Yup.number()
+    phoneNumber: Yup.string()
         .test('cleanName', 'Profane words are not allowed!', value => !filter.isProfane(value))
-        .min(8, 'Too Short!')
+        .min(9, 'Too Short!')
         .required("Phone number is required"),
     email: Yup.string()
         .test('cleanName', 'Profane words are not allowed!', value => !filter.isProfane(value))

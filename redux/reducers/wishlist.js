@@ -1,13 +1,13 @@
 const initialState = {
-    cartList: null
+    list: null
 };
 
-export default function cart(state = initialState, action) {
+export default function wishlist(state = initialState, action) {
     switch (action.type) {
-        case 'FETCH_CART':
+        case 'FETCH_WISHLIST':
             return {
                 ...state,
-                cartList: action.payload
+                list: action.payload
             }
         default:
             return state

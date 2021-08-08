@@ -9,7 +9,7 @@ import { connect } from 'react-redux';
 
 import {
     formatCurrency,
-    loadContent,
+    displayContent,
     calculateOldPrice
 } from '../../utils';
 import styles from '../../styles/components/home/NewArrivals.module.css';
@@ -24,7 +24,7 @@ const NewArrivals = ({ products }) => (
             </div>
             <div className={styles.newArrivalsItemsContainer}>
                 {
-                    loadContent(products, <div className={styles.newArrivalsWrapper}>
+                    displayContent(products, <div className={styles.newArrivalsWrapper}>
                         {
                             products.map(product => (
                                 <Link

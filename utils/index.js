@@ -1,3 +1,6 @@
+import cookie from "cookie";
+
+
 export const formatCurrency = (val) => {
     const formatter = new Intl.NumberFormat('KEN', {
         style: 'currency',
@@ -13,4 +16,6 @@ export const calculateOldPrice = (discount, newPrice) => {
     return formatCurrency(oldPrice);
 }
 
-export const loadContent = (list, jsx, spinner) => !!list.length ? jsx : spinner;
+export const displayContent = (list, jsx, spinner) => !list.length ? spinner : jsx;
+
+export const parseCookies = (req) => cookie.parse(req ? req.headers.cookie || "" : document.cookie);

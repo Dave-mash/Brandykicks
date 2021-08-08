@@ -7,6 +7,7 @@ import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
+import CircularProgress from '@material-ui/core/CircularProgress';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
@@ -26,6 +27,8 @@ import { formatCurrency } from '../utils';
 import Layout from '../components/Layout';
 import BottomNav from '../components/BottomNav';
 import styles from '../styles/Cart.module.css';
+import spinner from '../styles/components/home/NewArrivals.module.css';
+// import styles from '../styles/global.css';
 
 
 const useStyles = makeStyles({
@@ -50,8 +53,18 @@ const handleOnQtyChange = () => {
     return;
 }
 
+const loadingSpinner = () => (
+    <div className={styles.spinner} ref={spinner}>
+        <div className={styles.loadingBanner}><CircularProgress /></div>
+    </div>
+);
+
 const Cart = ({ cartList, fetchCart }) => {
-    useEffect(() => fetchCart(), []);
+    useEffect(() => {
+        fetchCart();
+    }, []);
+
+    const cartListTotal = !!cartList ? cartList.length : 0;
     const classes = useStyles();
     const TAX_RATE = 0;
 
@@ -60,7 +73,7 @@ const Cart = ({ cartList, fetchCart }) => {
     const subtotal = (items) => items.map(
         ({ acf }) => parseInt(acf.price)).reduce((sum, i) => sum + i, 0);
 
-    const invoiceSubtotal = subtotal(cartList);
+    const invoiceSubtotal = subtotal(!cartList ? [] : cartList);
     const taxes = TAX_RATE * invoiceSubtotal;
     const total = taxes + invoiceSubtotal;
 
@@ -71,183 +84,187 @@ const Cart = ({ cartList, fetchCart }) => {
         target.style.display = 'none';
     }
 
+    const content = (list, cart, jsx) => !list ? loadingSpinner() : (!list.length ? jsx : cart);
+
     return (
         <div className={styles.cartContainer}>
             <Layout>
-                {!!cartList.length ? <div className={`${styles.cartContentContainer}`}>
-                    <div className={`${styles.cartContent} ${styles.dsk}`}>
-                        <ThemeProvider theme={theme}>
-                            <Breadcrumbs aria-label="breadcrumb" style={styles.breadcrumbs}>
-                                <Link color="inherit" href="/">Home</Link>
-                                <Typography color="textPrimary">Cart</Typography>
-                            </Breadcrumbs>
-                        </ThemeProvider>
-                        <div className={styles.cartItems}>
-                            <h1 className={styles.cartTitle}>My Cart(3 Items)</h1>
-                            <ThemeProvider theme={theme2}>
-                                <TableContainer component={Paper}>
-                                    <Table className={classes.table} aria-label="spanning table">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableCell>Item</TableCell>
-                                                <TableCell align="left">Quantity</TableCell>
-                                                <TableCell align="right">Unit</TableCell>
-                                                <TableCell align="right">Sum</TableCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {
-                                                cartList.map(cartItem => {
-                                                    const {
-                                                        title,
-                                                        quantity,
-                                                        unit_price,
-                                                        img
-                                                    } = cartItem.acf;
-
-                                                    return (
-                                                        <TableRow key={cartItem.id} className={styles.tableRow}>
-                                                            <TableCell className={styles.desc}>
-                                                                <FontAwesomeIcon
-                                                                    icon={faTrashAlt}
-                                                                    className={styles.trashIcon}
-                                                                    onClick={(e) => handleDeleteCartItem(e)}
-                                                                ></FontAwesomeIcon>
-                                                                <Image
-                                                                    src={img}
-                                                                    alt={title}
-                                                                    width={80}
-                                                                    height={80}
-                                                                    className={styles.cartItemImage}
-                                                                />
-                                                                <span style={{ marginLeft: '30px' }}>{title}</span>
-                                                            </TableCell>
-                                                            <TableCell align="left">
-                                                                <input value={quantity} onChange={handleOnQtyChange} className={styles.qtyInput} type="number" />
-                                                            </TableCell>
-                                                            <TableCell align="right" className={styles.rowUnit}>{formatCurrency(unit_price)}</TableCell>
-                                                            <TableCell align="right" className={styles.rowTotal}>{formatCurrency(priceRow(quantity, unit_price))}</TableCell>
-                                                        </TableRow>
-                                                    );
-                                                })
-                                            }
-                                            <TableRow>
-                                                <TableCell rowSpan={3} />
-                                                <TableCell colSpan={2} className={styles.subtotalText}>SUBTOTAL</TableCell>
-                                                {console.log('==> ',taxes)}
-                                                <TableCell align="right" className={styles.subtotal}>{formatCurrency(invoiceSubtotal)}</TableCell>
-                                            </TableRow>
-                                            <TableRow>
-                                                <TableCell className={styles.taxText}>TAX</TableCell>
-                                                <TableCell align="right">{`${TAX_RATE.toFixed(0)} %`}</TableCell>
-                                                <TableCell align="right" className={styles.tax}>{formatCurrency(taxes)}</TableCell>
-                                            </TableRow>
-                                            <TableRow>
-                                                <TableCell colSpan={2} className={styles.totalText}>TOTAL</TableCell>
-                                                <TableCell align="right" className={styles.total}>{formatCurrency(total)}</TableCell>
-                                            </TableRow>
-                                            <TableRow>
-                                                <TableCell rowSpan={2} />
-                                                <TableCell>
-                                                    <Link href="/">
-                                                        <button className={styles.continueShopping} style={{
-                                                            background: 'white',
-                                                            color: '#bf1c2d',
-                                                            borderRadius: '.3rem',
-                                                            fontWeight: 'bold'
-                                                        }}>CONTINUE SHOPPING</button>
-                                                    </Link>
-                                                </TableCell>
-                                                <TableCell rowSpan={2} />
-                                                <TableCell align="right">
-                                                    <Link href="/Checkout">
-                                                        <button className={styles.checkout} style={{
-                                                            background: '#bf1c2d',
-                                                            color: 'white',
-                                                            borderRadius: '.3rem',
-                                                            fontWeight: 'bold'
-                                                        }}>PROCEED TO CHECKOUT</button>
-                                                    </Link>
-                                                </TableCell>
-                                            </TableRow>
-                                        </TableBody>
-                                    </Table>
-                                </TableContainer>
+                {
+                    content(cartList, <div className={`${styles.cartContentContainer}`}>
+                        <div className={`${styles.cartContent} ${styles.dsk}`}>
+                            <ThemeProvider theme={theme}>
+                                <Breadcrumbs aria-label="breadcrumb" style={styles.breadcrumbs}>
+                                    <Link color="inherit" href="/">Home</Link>
+                                    <Typography color="textPrimary">Cart</Typography>
+                                </Breadcrumbs>
                             </ThemeProvider>
-                        </div>
-                    </div>
-                    <div className={`${styles.mbCart} ${styles.mb}`}>
-                        <h4>MY CART(3 ITEMS)</h4>
-                        <div className={styles.cartItemsContainer}>
-                            {
-                                cartList.map(cartItem => {
-                                    const {
-                                        title,
-                                        quantity,
-                                        unit_price,
-                                        img
-                                    } = cartItem.acf;
+                            <div className={styles.cartItems}>
+                                <h1 className={styles.cartTitle}>My Cart({cartListTotal} Items)</h1>
+                                <ThemeProvider theme={theme2}>
+                                    <TableContainer component={Paper}>
+                                        <Table className={classes.table} aria-label="spanning table">
+                                            <TableHead>
+                                                <TableRow>
+                                                    <TableCell>Item</TableCell>
+                                                    <TableCell align="left">Quantity</TableCell>
+                                                    <TableCell align="right">Unit</TableCell>
+                                                    <TableCell align="right">Sum</TableCell>
+                                                </TableRow>
+                                            </TableHead>
+                                            <TableBody>
+                                                {
+                                                    (!cartList ? [] : cartList).map(cartItem => {
+                                                        const {
+                                                            title,
+                                                            quantity,
+                                                            unit_price,
+                                                            img
+                                                        } = cartItem.acf;
 
-                                    return (
-                                        <div className={styles.cartItem} key={cartItem.id}>
-                                            <div className={styles.cartDetails}>
-                                                <div className={styles.itemImage}>
-                                                    <Image
-                                                        src={img}
-                                                        alt={title}
-                                                        width={80}
-                                                        height={80}
-                                                        className={styles.mbCartItemImage}
-                                                    />
+                                                        return (
+                                                            <TableRow key={cartItem.id} className={styles.tableRow}>
+                                                                <TableCell className={styles.desc}>
+                                                                    <FontAwesomeIcon
+                                                                        icon={faTrashAlt}
+                                                                        className={styles.trashIcon}
+                                                                        onClick={(e) => handleDeleteCartItem(e)}
+                                                                    ></FontAwesomeIcon>
+                                                                    <Image
+                                                                        src={img}
+                                                                        alt={title}
+                                                                        width={80}
+                                                                        height={80}
+                                                                        className={styles.cartItemImage}
+                                                                    />
+                                                                    <span style={{ marginLeft: '30px' }}>{title}</span>
+                                                                </TableCell>
+                                                                <TableCell align="left">
+                                                                    <input value={quantity} onChange={handleOnQtyChange} className={styles.qtyInput} type="number" />
+                                                                </TableCell>
+                                                                <TableCell align="right" className={styles.rowUnit}>{formatCurrency(unit_price)}</TableCell>
+                                                                <TableCell align="right" className={styles.rowTotal}>{formatCurrency(priceRow(quantity, unit_price))}</TableCell>
+                                                            </TableRow>
+                                                        );
+                                                    })
+                                                }
+                                                <TableRow>
+                                                    <TableCell rowSpan={3} />
+                                                    <TableCell colSpan={2} className={styles.subtotalText}>SUBTOTAL</TableCell>
+                                                    {console.log('==> ', taxes)}
+                                                    <TableCell align="right" className={styles.subtotal}>{formatCurrency(invoiceSubtotal)}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell className={styles.taxText}>TAX</TableCell>
+                                                    <TableCell align="right">{`${TAX_RATE.toFixed(0)} %`}</TableCell>
+                                                    <TableCell align="right" className={styles.tax}>{formatCurrency(taxes)}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell colSpan={2} className={styles.totalText}>TOTAL</TableCell>
+                                                    <TableCell align="right" className={styles.total}>{formatCurrency(total)}</TableCell>
+                                                </TableRow>
+                                                <TableRow>
+                                                    <TableCell rowSpan={2} />
+                                                    <TableCell>
+                                                        <Link href="/">
+                                                            <button className={styles.continueShopping} style={{
+                                                                background: 'white',
+                                                                color: '#bf1c2d',
+                                                                borderRadius: '.3rem',
+                                                                fontWeight: 'bold'
+                                                            }}>CONTINUE SHOPPING</button>
+                                                        </Link>
+                                                    </TableCell>
+                                                    <TableCell rowSpan={2} />
+                                                    <TableCell align="right">
+                                                        <Link href="/Checkout">
+                                                            <button className={styles.checkout} style={{
+                                                                background: '#bf1c2d',
+                                                                color: 'white',
+                                                                borderRadius: '.3rem',
+                                                                fontWeight: 'bold'
+                                                            }}>PROCEED TO CHECKOUT</button>
+                                                        </Link>
+                                                    </TableCell>
+                                                </TableRow>
+                                            </TableBody>
+                                        </Table>
+                                    </TableContainer>
+                                </ThemeProvider>
+                            </div>
+                        </div>
+                        <div className={`${styles.mbCart} ${styles.mb}`}>
+                            <h4>MY CART(3 ITEMS)</h4>
+                            <div className={styles.cartItemsContainer}>
+                                {
+                                    (!cartList ? [] : cartList).map(cartItem => {
+                                        const {
+                                            title,
+                                            quantity,
+                                            unit_price,
+                                            img
+                                        } = cartItem.acf;
+
+                                        return (
+                                            <div className={styles.cartItem} key={cartItem.id}>
+                                                <div className={styles.cartDetails}>
+                                                    <div className={styles.itemImage}>
+                                                        <Image
+                                                            src={img}
+                                                            alt={title}
+                                                            width={80}
+                                                            height={80}
+                                                            className={styles.mbCartItemImage}
+                                                        />
+                                                    </div>
+                                                    <div className={styles.itemDetails}>
+                                                        <p>{title}</p>
+                                                        <p>{formatCurrency(unit_price)}</p>
+                                                    </div>
                                                 </div>
-                                                <div className={styles.itemDetails}>
-                                                    <p>{title}</p>
-                                                    <p>{formatCurrency(unit_price)}</p>
+                                                <div className={styles.cartOptions}>
+                                                    <div className={styles.itemOptionsIcons}>
+                                                        <FontAwesomeIcon icon={faHeart} className={styles.wishlistIcon}></FontAwesomeIcon>
+                                                        <FontAwesomeIcon icon={faTrashAlt} className={styles.trashIcon}></FontAwesomeIcon>
+                                                    </div>
+                                                    <div className={styles.itemQuantity}>
+                                                        <FontAwesomeIcon icon={faMinusCircle} className={styles.minusIcon}></FontAwesomeIcon>
+                                                        <input value={quantity} onChange={handleOnQtyChange} className={styles.mbQtyInput} type="number" />
+                                                        <FontAwesomeIcon icon={faPlusCircle} className={styles.addIcon}></FontAwesomeIcon>
+                                                    </div>
                                                 </div>
                                             </div>
-                                            <div className={styles.cartOptions}>
-                                                <div className={styles.itemOptionsIcons}>
-                                                    <FontAwesomeIcon icon={faHeart} className={styles.wishlistIcon}></FontAwesomeIcon>
-                                                    <FontAwesomeIcon icon={faTrashAlt} className={styles.trashIcon}></FontAwesomeIcon>
-                                                </div>
-                                                <div className={styles.itemQuantity}>
-                                                    <FontAwesomeIcon icon={faMinusCircle} className={styles.minusIcon}></FontAwesomeIcon>
-                                                    <input value={quantity} onChange={handleOnQtyChange} className={styles.mbQtyInput} type="number" />
-                                                    <FontAwesomeIcon icon={faPlusCircle} className={styles.addIcon}></FontAwesomeIcon>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    )
-                                })
-                            }
-                        </div>
-                        <div className={`${styles.cartItem} ${styles.cartTotal}`}>
-                            <div className={styles.cartItemsSubtotal}>
-                                <p>Subtotal</p>
-                                <p>KSH 15700.00</p>
+                                        )
+                                    })
+                                }
                             </div>
-                            <div className={styles.cartItemsVAT}>
-                                <p>VAT</p>
-                                <p>KSH 1099.00</p>
-                            </div>
-                            <div className={styles.cartItemsTotal}>
-                                <p>Total</p>
-                                <p className={styles.cumulativeTotal}>KSH 16799.00</p>
-                            </div>
-                            <div className={styles.checkoutBtn}>
-                                <Link href="/Checkout">
-                                    <button className={styles.checkout} style={{
-                                        background: '#bf1c2d',
-                                        color: 'white',
-                                        borderRadius: '.3rem',
-                                        width: '100%',
-                                        fontWeight: 'bold'
-                                    }}>PROCEED TO CHECKOUT</button>
-                                </Link>
+                            <div className={`${styles.cartItem} ${styles.cartTotal}`}>
+                                <div className={styles.cartItemsSubtotal}>
+                                    <p>Subtotal</p>
+                                    <p>KSH 15700.00</p>
+                                </div>
+                                <div className={styles.cartItemsVAT}>
+                                    <p>VAT</p>
+                                    <p>KSH 1099.00</p>
+                                </div>
+                                <div className={styles.cartItemsTotal}>
+                                    <p>Total</p>
+                                    <p className={styles.cumulativeTotal}>KSH 16799.00</p>
+                                </div>
+                                <div className={styles.checkoutBtn}>
+                                    <Link href="/Checkout">
+                                        <button className={styles.checkout} style={{
+                                            background: '#bf1c2d',
+                                            color: 'white',
+                                            borderRadius: '.3rem',
+                                            width: '100%',
+                                            fontWeight: 'bold'
+                                        }}>PROCEED TO CHECKOUT</button>
+                                    </Link>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div> : <h1>Nothing to show here</h1>}
+                    </div>, <div className={spinner.loadingBanner}><h1>Nothing here yet! <Link href="/">Start shopping?</Link></h1></div>)
+                }
             </Layout>
             <BottomNav />
         </div >

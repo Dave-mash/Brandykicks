@@ -1,6 +1,7 @@
 .cartContentContainer {
     margin: 0 auto;
     padding-top: 2rem;
+    /* transition: visibility 100ms; */
     /* padding-bottom: 10rem; */
 }
 .cartContainer {
@@ -81,6 +82,13 @@
 }
 .mb {
     display: none;
+}
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    /* transition: visibility 100ms; */
 }
 
 @media screen and (min-width: 10em) and (max-width: 51em) {

@@ -7,7 +7,13 @@ import {
     faFacebook,
     faGooglePlus,
 } from '@fortawesome/free-brands-svg-icons';
-// import { connect } from 'react-redux';
+import {
+    useSession,
+    signIn,
+    signOut
+} from 'next-auth/client'
+import { connect } from 'react-redux';
+import { useRouter } from 'next/router'
 
 import { RegisterSchema } from '../../utils/FormValidation';
 // import ClientStorage from '../../utils/ClientStorage';
@@ -22,19 +28,28 @@ const useStyles = makeStyles({
 
 const RegisterForm = () => {
     const classes = useStyles();
+    const router = useRouter()
     const formik = useFormik({
         initialValues: {
             firstName: '',
             lastName: '',
             email: '',
             phoneNumber: '',
-            password: ''                        
+            password: ''
         },
         validationSchema: RegisterSchema,
-        onSubmit: (values, { setSubmitting, resetForm }) => {
-            console.log('JSON.stringify(values, null, 2)');
-            console.log(JSON.stringify(values, null, 2));
+        onSubmit: async (values, { setSubmitting, resetForm }) => {
             setSubmitting(true);
+
+            const res = await signIn('credentials',
+                {
+                    ...values,
+                    redirect: false
+                    // callbackUrl: `${window.location.origin}`
+                })
+
+            if (res.url) router.replace(res.url);
+            console.log('token: ', res)
         },
     });
 
@@ -64,6 +79,7 @@ const RegisterForm = () => {
                 />
                 <TextField
                     fullWidth
+                    type="email"
                     id="email"
                     name="email"
                     label="Email"
@@ -104,7 +120,14 @@ const RegisterForm = () => {
                     <h4>Register in with:</h4>
                     <span className={styles.socialIcons}>
                         <FontAwesomeIcon icon={faFacebook} className={`${styles.socialBrand} ${styles.fb}`}></FontAwesomeIcon>
-                        <FontAwesomeIcon icon={faGooglePlus} className={`${styles.socialBrand} ${styles.google}`}></FontAwesomeIcon>
+                        <FontAwesomeIcon
+                            icon={faGooglePlus}
+                            className={`${styles.socialBrand} ${styles.google}`}
+                            onClick={() => {
+                                signIn('google', { callbackUrl: 'http://localhost:3000/' })
+                            }}
+                        ></FontAwesomeIcon>
+                        <button onClick={() => signOut()}>Sign out</button>
                     </span>
                 </div>
             </form>

@@ -72,7 +72,6 @@ const ProductItem = ({ product }) => {
     const [value, setValue] = useState(2);
     const [option, setOption] = useState("description");
     const classes = useStyles();
-    console.log('single product: ', product);
 
     const displayInfo = () => {
         console.log('-> ', product)
