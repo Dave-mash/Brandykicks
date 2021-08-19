@@ -8,8 +8,9 @@ import {
     faFacebook,
     faGooglePlus,
 } from '@fortawesome/free-brands-svg-icons';
-import { useCookies } from "react-cookie";
 import { connect } from 'react-redux';
+import { useRouter } from 'next/router'
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 import { LoginSchema } from '../../utils/FormValidation';
 import { signIn } from '../../redux/actions/auth';
@@ -23,7 +24,7 @@ const theme = createMuiTheme({
 });
 
 const LoginForm = ({ signIn }) => {
-    const [cookie, setCookie] = useCookies(["user"]);
+    const router = useRouter();
     const formik = useFormik({
         initialValues: {
             email: '',
@@ -32,11 +33,14 @@ const LoginForm = ({ signIn }) => {
         },
         validationSchema: LoginSchema,
         onSubmit: (values, { setSubmitting, resetForm }) => {
-            setSubmitting(true);
-            signIn(values, setCookie);
-            setSubmitting(false);
+            setSubmitting(true)
+            signIn(values);
+            setSubmitting(false)
+            resetForm();
+            router.replace('/Profile');
         },
     });
+
 
     return (
         <div className={styles.LoginForm}>
@@ -64,10 +68,11 @@ const LoginForm = ({ signIn }) => {
                 /><br /><br /><br />
                 <Button
                     fullWidth
+                    disabled={formik.isSubmitting}
                     color="primary"
                     variant="contained"
                     type="submit"
-                >Submit</Button>
+                >{formik.isSubmitting ? <div className={styles.loadingBanner}><CircularProgress /></div> : 'Submit'}</Button>
                 <div
                     style={{
                         display: 'flex',
@@ -107,7 +112,7 @@ const LoginForm = ({ signIn }) => {
 }
 
 const mapDispatchToProps = (dispatch) => ({
-    signIn: (values, setCookie) => dispatch(signIn(values, setCookie))
+    signIn: (values) => dispatch(signIn(values))
 })
 
 export default connect(null, mapDispatchToProps)(LoginForm);

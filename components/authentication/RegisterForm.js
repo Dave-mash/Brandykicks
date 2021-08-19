@@ -7,16 +7,12 @@ import {
     faFacebook,
     faGooglePlus,
 } from '@fortawesome/free-brands-svg-icons';
-import {
-    useSession,
-    signIn,
-    signOut
-} from 'next-auth/client'
 import { connect } from 'react-redux';
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/router';
+import axios from 'axios';
 
 import { RegisterSchema } from '../../utils/FormValidation';
-// import ClientStorage from '../../utils/ClientStorage';
+import { registerUser } from '../../redux/actions/auth';
 import styles from '../../styles/Register.module.css';
 
 
@@ -26,30 +22,22 @@ const useStyles = makeStyles({
     }
 });
 
-const RegisterForm = () => {
+const RegisterForm = ({ registerUser }) => {
+    const router = useRouter();
     const classes = useStyles();
-    const router = useRouter()
     const formik = useFormik({
         initialValues: {
             firstName: '',
             lastName: '',
             email: '',
-            phoneNumber: '',
             password: ''
         },
         validationSchema: RegisterSchema,
         onSubmit: async (values, { setSubmitting, resetForm }) => {
             setSubmitting(true);
-
-            const res = await signIn('credentials',
-                {
-                    ...values,
-                    redirect: false
-                    // callbackUrl: `${window.location.origin}`
-                })
-
-            if (res.url) router.replace(res.url);
-            console.log('token: ', res)
+            registerUser(values);
+            resetForm();
+            setSubmitting(false);
         },
     });
 
@@ -98,17 +86,6 @@ const RegisterForm = () => {
                     onChange={formik.handleChange}
                     error={formik.touched.password && Boolean(formik.errors.password)}
                     helperText={formik.touched.password && formik.errors.password}
-                />
-                <TextField
-                    fullWidth
-                    id="phoneNumber"
-                    name="phoneNumber"
-                    label="Phone number"
-                    type="number"
-                    value={formik.values.phoneNumber}
-                    onChange={formik.handleChange}
-                    error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
-                    helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
                 /><br /><br /><br />
                 <Button
                     fullWidth
@@ -123,11 +100,8 @@ const RegisterForm = () => {
                         <FontAwesomeIcon
                             icon={faGooglePlus}
                             className={`${styles.socialBrand} ${styles.google}`}
-                            onClick={() => {
-                                signIn('google', { callbackUrl: 'http://localhost:3000/' })
-                            }}
+                            onClick={() => null}
                         ></FontAwesomeIcon>
-                        <button onClick={() => signOut()}>Sign out</button>
                     </span>
                 </div>
             </form>
@@ -135,4 +109,8 @@ const RegisterForm = () => {
     )
 }
 
-export default RegisterForm;
+const mapDispatchToProps = (dispatch) => ({
+    registerUser: (values) => dispatch(registerUser(values))
+});
+
+export default connect(null, mapDispatchToProps)(RegisterForm);

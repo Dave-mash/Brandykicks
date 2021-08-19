@@ -22,6 +22,10 @@
     color: var(--grey);
     width: 100%;
 }
+.account {
+    min-height: 50vh;
+    padding-top: 2rem
+}
 
 @media screen and (min-width: 10em) and (max-width: 50em) {
     .authenticationContainer {
@@ -34,5 +38,11 @@
     .register {
         width: 100%;
         margin: 2rem 0;
+    }
+}
+
+@media screen and (min-width: 50em) and (max-width: 80em) {
+    .account {
+        padding-top: 7rem
     }
 }

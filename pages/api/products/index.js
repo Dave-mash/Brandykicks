@@ -1,4 +1,4 @@
-import axios from 'axios';
+// import axios from 'axios';
 
 export default async function handler(req, res) {
     // const url = `https://brandykicks.000webhostapp.com/wp-json/wp/v2/products`;

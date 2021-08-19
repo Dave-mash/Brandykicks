@@ -2,40 +2,29 @@ import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import App from 'next/app';
 
-import { parseCookies } from '../utils';
 import { wrapper } from '../redux/store';
-import { fetchUser } from '../redux/actions/auth';
 import '../styles/globals.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-multi-carousel/lib/styles.css';
+import { fetchUser } from "../redux/actions/auth";
+import fire from '../firebase/config';
 
 
 config.autoAddCss = false;
 
 class MyApp extends App {
-	componentDidMount() {
-
-	}
 	// getInitialProps allows for initial data population
 	// getInitialProps will disable Automatic Static Optimization.
+	componentDidMount() {
+		console.log('==> ',this.props);
+	}
 
 	static getInitialProps = wrapper.getInitialAppProps(store => async ({ Component, ctx }) => {
-		const req = ctx.req;
-		const res = ctx.res;
-		const data = parseCookies(req);
-
 		try {
-			// check if cookie is valid
-			if (res) {
-				if (Object.keys(data).length === 0 && data.constructor === Object) {
-					res.writeHead(301, { Location: "/" })
-					res.end()
-					fetchUser();
-					console.log('Invalid cookie!')
-				} else {
-					fetchUser(data);
-				}
-			}
+			const state = store.getState();
+			const isLoggedIn = state.auth.isLoggedIn;
+			
+			!isLoggedIn && store.dispatch(fetchUser());
 
 			//Anything returned here can be accessed by the client
 
@@ -43,7 +32,9 @@ class MyApp extends App {
 				pageProps: {
 					// Call page-level getInitialProps
 					// PROVIDE STORE TO PAGE
-					...(Component.getInitialProps ? await Component.getInitialProps(ctx) : {})
+					...(Component.getInitialProps ? await Component.getInitialProps({ ...ctx, store }) : {}),
+					// Some custom thing for all pages
+					pathname: ctx.pathname,
 				}
 			};
 		} catch (e) {
@@ -55,7 +46,7 @@ class MyApp extends App {
 		// Information that was returned from 'getInitialProps' are stored in the props i.e. pageProps
 		const { Component, pageProps } = this.props;
 
-		return <Component {...pageProps} />;
+		return <Component {...pageProps} />
 	}
 }
 

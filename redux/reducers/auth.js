@@ -1,6 +1,7 @@
 const initialState = {
-    user: null,
-    isLoggedIn: null
+    email: null,
+    displayName: null,
+    isLoggedIn: false
 }
 
 export default function user(state = initialState, action) {
@@ -11,6 +12,8 @@ export default function user(state = initialState, action) {
                 ...state,
                 ...action.payload
             }
+        case 'LOGOUT':
+            return initialState;
         default:
             return state
     }

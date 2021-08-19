@@ -19,13 +19,7 @@ const combinedReducer = combineReducers({
 const reducer = (state, action) => {
     switch (action.type) {
         case HYDRATE:
-            return {
-                ...state,
-                server: {
-                    ...state.server,
-                    ...action.payload.server
-                }
-            }
+            return { ...state, ...action.payload }
         case 'SERVER_ACTION':
             return {
                 ...state,

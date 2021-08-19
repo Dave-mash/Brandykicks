@@ -35,7 +35,8 @@ class NavBar extends Component {
         this.handleScroll = this.handleScroll.bind(this);
 
         this.state = {
-            scrolled: false
+            scrolled: false,
+            isLoggedIn: this.props.auth.isLoggedIn
         }
     }
 
@@ -75,6 +76,7 @@ class NavBar extends Component {
     }
 
     render() {
+        console.log('this.state.isLoggedIn',this.state.isLoggedIn)
         return (
             <div className={styles.navbarContainer} >
                 <div className={`${styles.helpSection} ${styles.dsk}`}>
@@ -161,7 +163,7 @@ class NavBar extends Component {
                         </div>
                         <div className={`${styles.authSaveCart} ${styles.dsk}`}>
                             <div className={styles.registerLogin}>
-                                <Link href="/Account" className={styles.registerLogin}>
+                                <Link href="/Profile" className={styles.registerLogin}>
                                     <FontAwesomeIcon icon={faUser} className={styles.userIcon}></FontAwesomeIcon>
                                 </Link>
                             </div>
@@ -190,8 +192,9 @@ class NavBar extends Component {
 }
 
 
-const mapStateToProps = ({ filters, products }) => ({
+const mapStateToProps = ({ filters, products, auth }) => ({
     filters,
+    auth,
     products: filterProducts(products.productsList, filters)
 });
 
