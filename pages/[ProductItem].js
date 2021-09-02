@@ -6,7 +6,7 @@ import NumericInput from 'react-numeric-input';
 import Button from '@material-ui/core/Button';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
 import { makeStyles, ThemeProvider, withStyles, createMuiTheme } from '@material-ui/core/styles';
-import Link from '@material-ui/core/Link';
+import Link from "next/link";
 import Image from 'next/image';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";

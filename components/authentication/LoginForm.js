@@ -1,4 +1,4 @@
-import Link from '@material-ui/core/Link';
+import Link from "next/link";
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import { createMuiTheme } from '@material-ui/core/styles';

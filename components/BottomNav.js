@@ -45,7 +45,7 @@ const BottomNav = () => {
                         <p>Cart</p>
                     </div>
                 </Link>
-                <Link href="/Account">
+                <Link href="/account/Details">
                     <div className={`${router.pathname === '/Account' ? styles.active : styles.account}`}>
                         <FontAwesomeIcon icon={faUser} className={styles.accountIcon}></FontAwesomeIcon>
                         <p>Account</p>

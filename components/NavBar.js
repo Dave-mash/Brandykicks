@@ -163,7 +163,7 @@ class NavBar extends Component {
                         </div>
                         <div className={`${styles.authSaveCart} ${styles.dsk}`}>
                             <div className={styles.registerLogin}>
-                                <Link href="/Profile" className={styles.registerLogin}>
+                                <Link href="/account/Details" className={styles.registerLogin}>
                                     <FontAwesomeIcon icon={faUser} className={styles.userIcon}></FontAwesomeIcon>
                                 </Link>
                             </div>

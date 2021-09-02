@@ -2,198 +2,90 @@
 // * This file contains the logic to handle Lipa Na Mpesa transaction
 // */
 
-// const express = require('express');
-// const unirest = require('unirest');
-// const bodyParser = require('body-parser');
-// const { pass_key, consumer_key, consumer_secret, port } = require('../../config');
-// const app = express();
+import axios from 'axios';
+let unirest = require('unirest');
 
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true }));
+import { pass_key, consumer_key, consumer_secret } from '../../../../config';
+import requestHook from './webHook';
 
-// const auth_url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials",
-//     auth = "Basic " + Buffer.from(consumer_key + ":" + consumer_secret).toString("base64");
+const auth_url = "https://sandbox.safaricom.co.ke/oauth/v1/generate?grant_type=client_credentials",
+    url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest",
+    callBackURL = "https://8984-102-166-203-195.ngrok.io/hooks/mpesa";
 
-// const processLipaNaMpesaRequest = ({
-//     phoneNumber = null,
-//     shortCode = null,
-//     amount = null,
-//     vendor = null
-// }, resp) => {
-//     unirest('GET', auth_url) // Get auth token
-//         .headers({ 'Authorization': auth })
-//         .send()
-//         .end(res => {
-//             if (res.error) console.log('Error: ', res.error);
-            
-//             const response = JSON.parse(res.raw_body);
-//             let access_token = `Bearer ${response.access_token}`;
-//             const url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest";
-//             const callBackURL = "https://02813dde7a3f.ngrok.io/hooks/mpesa";
-//             const timestamp = new Date().toISOString().slice(-24).replace(/\D/g, '').slice(0, 14);
-//             const b64string = shortCode + pass_key + timestamp;
-//             const bufferToEncrypt = Buffer.from(b64string);
-//             const encryptedKey = bufferToEncrypt.toString('base64');
-//             console.log('password: ',base64.encode(shortcode+pass_key+timestamp));
+let auth = "Basic " + Buffer.from(consumer_key + ":" + consumer_secret).toString("base64");
 
-//             unirest('POST', url) // process payment
-//                 .headers({
-//                     'Content-Type': 'application/json',
-//                     'Authorization': access_token
-//                 })
-//                 .send(JSON.stringify({
-//                     "BusinessShortCode": 174379,
-//                     "Password": encryptedKey,
-//                     "Timestamp": timestamp,
-//                     "TransactionType": "CustomerPayBillOnline",
-//                     "Amount": amount,
-//                     "PartyA": phoneNumber,
-//                     "PartyB": vendor,
-//                     "PhoneNumber": phoneNumber,
-//                     "CallBackURL": callBackURL,
-//                     "AccountReference": "Brandykicks",
-//                     "TransactionDesc": "Payment of X"
+const processLipaNaMpesaRequest = async (req, res) => {
+    const {
+        phoneNumber = "254729710290",
+        shortCode = "174379",
+        amount = "1",
+        vendor = "174379"
+    } = req.body;
 
-//                     // {
-//                     //     "BusinessShortCode": 174379,
-//                     //     "Password": "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMjEwNzE3MTYzMzE3",
-//                     //     "Timestamp": "20210717163317",
-//                     //     "TransactionType": "CustomerPayBillOnline",
-//                     //     "Amount": 1,
-//                     //     "PartyA": 254729710290,
-//                     //     "PartyB": 174379,
-//                     //     "PhoneNumber": 254729710290,
-//                     //     "CallBackURL": "https://d4ca14a43ca9.ngrok.io/hooks/mpesa",
-//                     //     "AccountReference": "CompanyXLTD",
-//                     //     "TransactionDesc": "Payment of X"
-//                     // }
-//                 }))
-//                 .end(res => {
-//                     if (res?.error) console.log(res.error);
-//                     console.log(res.raw_body);
-//                 });
-//         });
+    // Get auth token
+    try {
+        const tokenResponse = await axios.get(auth_url, {
+            headers: { 'Authorization': auth }
+        });
+        let token = tokenResponse.data.access_token;
+        const access_token = `Bearer ${token}`;
+        const timestamp = new Date().toISOString().slice(-24).replace(/\D/g, '').slice(0, 14);
+        const b64string = shortCode + pass_key + timestamp;
+        const bufferToEncrypt = Buffer.from(b64string);
+        const encryptedKey = bufferToEncrypt.toString('base64');
+
+        const lipaNaMpesaRes = await axios.post(url, {
+            "BusinessShortCode": shortCode, // (Paybill or Buygoods)
+            "Password": encryptedKey,
+            "Timestamp": timestamp,
+            "TransactionType": "CustomerPayBillOnline",
+            "Amount": amount,
+            "PartyA": phoneNumber, // number sending money
+            "PartyB": vendor, // organisation receiving the funds
+            "PhoneNumber": phoneNumber, // Number to receive the STK Pin Prompt
+            "CallBackURL": callBackURL,
+            "AccountReference": "test",
+            "TransactionDesc": "test"
+        }, {
+            headers: { 'Authorization': access_token }
+        })
+
+        console.log('lipaNaMpesaRes: ', lipaNaMpesaRes.data);
 
 
-//     /*
-//     *
+        // unirest('POST', callBackURL)
+        //     .headers({ 'Content-Type': 'application/json' })
+        //     .send(JSON.stringify({ test: 123 }))
+        //     .end(response => {
+        //         if (res.error) console.log('Err here: ',res.error);
+
+        //         const hook = requestHook(req, res);
+        //         console.log('response: ', response);
+        //         console.log('hook: ', hook);
+        //     });
 
 
-        
-
-//     {
-//         "BusinessShortCode": 174379,
-//         "Password": "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMjEwNzE3MTYzMzE3",
-//         "Timestamp": "20210717163317",
-//         "TransactionType": "CustomerPayBillOnline",
-//         "Amount": 1,
-//         "PartyA": 254729710290,
-//         "PartyB": 174379,
-//         "PhoneNumber": 254729710290,
-//         "CallBackURL": "https://d4ca14a43ca9.ngrok.io/hooks/mpesa",
-//         "AccountReference": "CompanyXLTD",
-//         "TransactionDesc": "Payment of X" 
-//     }
-
-//     */
-
-//     // (error, response, body) => {
-//     //         console.log('===> ', body);
-//     //         let res = JSON.parse(body);
-//     //         
-//     //         console.log('===> ', access_token);
-
-//     //         request(
-//     //             {
-//     //                 method: 'POST',
-//     //                 url,
-//     //                 headers: {
-//     //                     "Authorization": access_token
-//     //                 },
-//     //                 json: {
-//     //                     "BusinessShortCode": shortCode, // (Paybill or Buygoods)
-//     //                     "Password": encryptedKey,
-//     //                     "Timestamp": timestamp,
-//     //                     "TransactionType": "CustomerPayBillOnline",
-//     //                     "Amount": amount,
-//     //                     "PartyA": phoneNumber, // number sending money
-//     //                     "PartyB": vendor, // organisation receiving the funds
-//     //                     "PhoneNumber": phoneNumber, // Number to receive the STK Pin Prompt
-//     //                     "CallBackURL": "https://d1ee2632aab0.ngrok.io/hooks/mpesa",
-//     //                     "AccountReference": "test",
-//     //                     "TransactionDesc": "test"
-//     //                 }
-//     //             },
-//     //             (error, response, body) => {
-//     //                 // console.log(body)
-//     //                 return resp.json({
-//     //                     "status": 200,
-//     //                     "message": 'Success',
-//     //                     "body": body
-//     //                 });
-//     //             }
-//     //         )
-//     //     }
-
-//     // } catch (error) {
-//     //     console.error('error: ', error);
-//     // }
 
 
-//     // await request(
-//     //     {
-//     //         url,
-//     //         headers: {
-//     //             "Authorization": auth
-//     //         }
-//     //     },
-//     //     (error, response, body) => {
-//     //         console.log('===> ', body);
-//     //         let res = JSON.parse(body);
-//     //         let access_token = "Bearer " + res.access_token;
-//     //         console.log('===> ', access_token);
-//     //         let url = "https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest";
+        axios.post(callBackURL, { test: 123 })
+            .then(response => {
+                console.log('response: ', response);
+                // const hook = requestHook(req, res);
+                // console.log('hook: ', hook);
+            })
+            .catch(e => {
+                console.log('Err here: ', e);
+            })
 
-//     //         const timestamp = new Date().toISOString().slice(-24).replace(/\D/g, '').slice(0, 14);
-//     //         const b64string = shortCode + pass_key + timestamp;
-//     //         const bufferToEncrypt = Buffer.from(b64string);
-//     //         const encryptedKey = bufferToEncrypt.toString('base64');
+        return res.json({
+            "status": 200,
+            "message": 'Success',
+            "body": lipaNaMpesaRes.data
+        });
+    } catch (e) {
+        const data = e.response.data;
+        console.log('----> ', data);
+    }
+}
 
-//     //         request(
-//     //             {
-//     //                 method: 'POST',
-//     //                 url,
-//     //                 headers: {
-//     //                     "Authorization": access_token
-//     //                 },
-//     //                 json: {
-//     //                     "BusinessShortCode": shortCode, // (Paybill or Buygoods)
-//     //                     "Password": encryptedKey,
-//     //                     "Timestamp": timestamp,
-//     //                     "TransactionType": "CustomerPayBillOnline",
-//     //                     "Amount": amount,
-//     //                     "PartyA": phoneNumber, // number sending money
-//     //                     "PartyB": vendor, // organisation receiving the funds
-//     //                     "PhoneNumber": phoneNumber, // Number to receive the STK Pin Prompt
-//     //                     "CallBackURL": "https://d1ee2632aab0.ngrok.io/hooks/mpesa",
-//     //                     "AccountReference": "test",
-//     //                     "TransactionDesc": "test"
-//     //                 }
-//     //             },
-//     //             (error, response, body) => {
-//     //                 // console.log(body)
-//     //                 return resp.json({
-//     //                     "status": 200,
-//     //                     "message": 'Success',
-//     //                     "body": body
-//     //                 });
-//     //             }
-//     //         )
-//     //     }
-//     // )
-// }
-
-
-// module.exports = {
-//     processLipaNaMpesaRequest
-// }
+export default processLipaNaMpesaRequest;

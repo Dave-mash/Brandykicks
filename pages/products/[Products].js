@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Image from 'next/image';
 import { ThemeProvider, createMuiTheme, makeStyles } from '@material-ui/core/styles';
 import Breadcrumbs from '@material-ui/core/Breadcrumbs';
-import Link from '@material-ui/core/Link';
+import Link from "next/link";
 import Typography from '@material-ui/core/Typography';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {

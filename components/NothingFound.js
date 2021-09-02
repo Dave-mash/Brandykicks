@@ -1,4 +1,4 @@
-import Link from '@material-ui/core/Link';
+import Link from "next/link";
 
 import styles from '../styles/components/NothingFound.module.css';
 

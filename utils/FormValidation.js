@@ -87,4 +87,29 @@ export const SubscriptionSchema = Yup.object().shape({
         .test('cleanName', 'Profane words are not allowed!', value => !filter.isProfane(value))
         .email("Invalid email address format")
         .required("Email is required")
+});
+
+export const AddressSchema = Yup.object().shape({
+    firstName: Yup.string()
+        .test('cleanName', 'Profane words are not allowed!', value => !filter.isProfane(value))
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('First name is required'),
+    lastName: Yup.string()
+        .test('cleanName', 'Profane words are not allowed!', value => !filter.isProfane(value))
+        .min(2, 'Too Short!')
+        .max(50, 'Too Long!')
+        .required('Last name is required'),
+    email: Yup.string()
+        .test('cleanName', 'Profane words are not allowed!', value => !filter.isProfane(value))
+        .email("Invalid email address format")
+        .required("Email is required"),
+    phoneNumber: Yup.string()
+        .test('cleanName', 'Profane words are not allowed!', value => !filter.isProfane(value))
+        .min(9, 'Too Short!')
+        .required("Phone number is required"),
+    password: Yup.string()
+        .test('cleanName', 'Profane words are not allowed!', value => !filter.isProfane(value))
+        .min(6, "Password must be 6 characters at minimum")
+        .required("Password is required")
 })

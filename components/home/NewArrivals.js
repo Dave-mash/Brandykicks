@@ -3,7 +3,7 @@ import Image from 'next/image';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
-import Link from '@material-ui/core/Link';
+import Link from "next/link";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import { connect } from 'react-redux';
 

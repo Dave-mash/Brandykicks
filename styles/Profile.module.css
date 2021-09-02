@@ -1,1 +1,96 @@
-
+.profileContainer {
+    background-color: var(--off-white);
+    display: flex;
+    padding: 2rem;
+    align-items: center;
+    flex-direction: column;
+    margin: 0 !important;
+}
+.breadcrumbs {
+    width: 85%;
+    padding: 0 2rem 2rem 0;
+}
+.profileWrapper {
+    display: flex;
+    width: 85%;
+    background-color: var(--off-white);
+    margin-top: 1rem;
+}
+.profileOptions {
+    flex: 20%;
+    margin-right: 2rem;
+}
+.profileDetailsWrapper {
+    padding: 5rem 3rem;
+    width: 100%;
+}
+.profileDetails {
+    flex: 80%;
+    margin-top: 5rem;
+}
+.personalInfo {
+    border-bottom: 0.1rem solid var(--light-grey);
+    width: 100%;
+    padding: 1rem 0;
+    margin-top: 2rem;
+}
+.profileMenuList {
+    margin-top: 2rem;
+}
+.profileMenu {
+    width: 90%;
+    height: 100%;
+}
+.profileMenu li {
+    font-size: 1.5rem;
+    padding: 1rem;
+    opacity: 0.8;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: var(--off-white);
+    cursor: pointer;
+}
+.profileMenu li p {
+    margin: 0;
+    margin-left: 1rem;
+}
+.profileMenu li:hover {
+    background-color: var(--light-grey);
+    color: var(--dark-red);
+}
+.profileLogoutBtn {
+    width: 100%;
+    padding: 1rem;
+}
+.logoutBtn {
+    padding: 1rem;
+    width: 60%;
+    outline: none;
+    border: none;
+    color: var(--dark-red);
+    opacity: 0.8;
+    background-color: var(--mark);
+    border-radius: 0.3rem;
+    font-weight: 500;
+}
+.logoutBtn:hover {
+    opacity: 1;
+}
+.active {
+    color: var(--dark-red);
+}
+.addAddress {
+    display: flex;
+    padding: 2rem;
+    justify-content: space-between;
+    align-items: center;
+}
+.faPlus {
+    color: var(--green);
+    font-size: 2.5rem;
+    cursor: pointer;
+}
+.mb {
+    width: 100%;
+}

@@ -1,6 +1,7 @@
 import "@fortawesome/fontawesome-svg-core/styles.css";
 import { config } from "@fortawesome/fontawesome-svg-core";
 import App from 'next/app';
+import axios from 'axios';
 
 import { wrapper } from '../redux/store';
 import '../styles/globals.css';
@@ -16,6 +17,7 @@ class MyApp extends App {
 	// getInitialProps allows for initial data population
 	// getInitialProps will disable Automatic Static Optimization.
 	componentDidMount() {
+		// axios.get('/api/payment-gateways/daraja/lipaNaMpesa').then(res => console.log('lipa na mpesa token: ', res.data)).catch(err => console.log(err));
 		console.log('==> ',this.props);
 	}
 
